@@ -1,0 +1,34 @@
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('',views.dashboard,name='dashboard'),
+    path('user_profile/',views.user_profile,name='user_profile'),
+    path('state/',views.state,name='state'),
+    path('add_state/',views.add_state,name='add_state'),
+    path('edit_state/<str:state_id>',views.edit_state,name='edit_state'),
+    path('edit_state/',views.edit_state,name='edit_state'),
+    path('delete_state/<str:st_id>',views.delete_state,name='delete_state'),
+    path('city/',views.city,name='city'),
+    path('add_city/',views.add_city,name='add_city'),
+    path('edit_city/',views.edit_city,name='edit_city'),
+    path('edit_city/<str:city_id>',views.edit_city,name='edit_city'),
+    path('delete_city/<str:ct_id>',views.delete_city,name='delete_city'),
+    path('area/',views.area,name='area'),
+    path('add_area/',views.add_area,name='add_area'),
+    path('edit_area/',views.edit_area,name='edit_area'),
+    path('edit_area/<str:area_id>',views.edit_area,name='edit_area'),
+    path('delete_area/<str:at_id>',views.delete_area,name='delete_area'),
+    path('user/',views.user,name='user'),
+    path('add_user/',views.add_user,name='add_user'),
+    path('edit_user/',views.edit_user,name='edit_user'),
+    path('edit_user/<str:user_id>',views.edit_user,name='edit_user'),
+    path('delete_user/<str:ur_id>',views.delete_user,name='delete_user'),
+
+
+
+]
+
+
+

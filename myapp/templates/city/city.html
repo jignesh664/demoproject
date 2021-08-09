@@ -1,0 +1,102 @@
+{% load static %}
+<!--
+=========================================================
+Material Dashboard - v2.1.2
+=========================================================
+
+Product Page: https://www.creative-tim.com/product/material-dashboard
+Copyright 2020 Creative Tim (https://www.creative-tim.com)
+Coded by Creative Tim
+
+=========================================================
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'myapp/img/apple-icon.png' %}">
+    <link rel=" icon" type="image/png" href="{% static 'myapp/img/favicon.png' %}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        Welcome to DivyaBhaskar Dashboard
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <!-- CSS Files -->
+    <link href="{% static 'myapp/css/material-dashboard.css' %}" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="{% static 'myapp/demo/demo.css' %}" rel="stylesheet" />
+</head>
+
+<body>
+
+    {% include 'header.html' %}
+
+    <div class="content">
+        <a href="{% url 'add_city' %}">Add City</a>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title ">City ( {{allcitys|length}} )</h4>
+                            <p class="card-category"> Table</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class=" text-primary">
+                                        <th>
+                                            State_Id
+                                        </th>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Desc
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+
+                                    </thead>
+                                    <tbody>
+                                        {% for city in allcitys %}
+                                        <tr>
+
+                                            <td>
+                                                {{ city.state_id }}
+                                            </td>
+                                            <td>
+                                                {{ city.name }}
+                                            </td>
+                                            <td>
+                                                {{ city.desc }}
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'edit_city' %}{{city.id}}">Edit</a>|<a
+                                                    href="{% url 'delete_city' city.id %}">Delete</a>
+                                            </td>
+
+                                        </tr>
+                                        {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
