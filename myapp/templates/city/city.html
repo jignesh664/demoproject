@@ -38,7 +38,7 @@ The above copyright notice and this permission notice shall be included in all c
     {% include 'header.html' %}
 
     <div class="content">
-        <a href="{% url 'add_city' %}">Add City</a>
+        <a class="btn btn-success" href="{% url 'add_city' %}" role="button">Add City</a>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -79,10 +79,14 @@ The above copyright notice and this permission notice shall be included in all c
                                             <td>
                                                 {{ city.desc }}
                                             </td>
+
                                             <td>
-                                                <a href="{% url 'edit_city' %}{{city.id}}">Edit</a>|<a
-                                                    href="{% url 'delete_city' city.id %}">Delete</a>
+                                                <a class="btn btn-success" href="{% url 'edit_city' %}{{city.id}}"
+                                                    role="button">Edit</a>
+                                                <a class="btn btn-danger data-sid" id="dlbtn"
+                                                    href="{% url 'delete_city' city.id %}" role="button">Delete</a>
                                             </td>
+
 
                                         </tr>
                                         {% endfor %}

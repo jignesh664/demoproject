@@ -109,9 +109,12 @@ The above copyright notice and this permission notice shall be included in all c
                                             <td>
                                                 {{ user.address }}
                                             </td>
+
                                             <td>
-                                                <a href="{% url 'edit_user' %} {{user.id}}">Edit</a>|<a
-                                                    href="{% url 'delete_user' user.id %}">Delete</a>
+                                                <a class="btn btn-success" href="{% url 'edit_user' %} {{user.id}}"
+                                                    role="button">Edit</a> </td>
+                                            <td><a class="btn btn-danger data-sid" id="dlbtn"
+                                                    href="{% url 'delete_user' user.id %}" role="button">Delete</a>
                                             </td>
 
                                         </tr>
@@ -129,9 +132,15 @@ The above copyright notice and this permission notice shall be included in all c
     </div>
 
 
+    <script>
+        $("tbody").on("click", ".dlbtn", function () {
+            console.log("delete button click");
+            let id = $(this).attr("data-sid");
+            console.log(id);
+        });
+    </script>
 
 
 </body>
-
 
 </html>

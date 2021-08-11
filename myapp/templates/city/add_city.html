@@ -19,6 +19,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="{% static 'myapp/css/material-dashboard.css' %}" rel="stylesheet" />
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+    </script>
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{% static 'myapp/demo/demo.css' %}" rel="stylesheet" />
 
@@ -80,12 +84,19 @@
         <form method="post" action="{% url 'add_city' %}">
             {% csrf_token %}
 
-            <select name="state_id" id="state_id">
+
+
+            <select class="st1" name="state_id" id="state_id">
                 {% for state in allStates %}
                 <option value="{{state.id}}">{{ state.name }}</option>
                 {% endfor %}
             </select>
 
+            <select class="ct1" name="state_id" id="">
+
+                <option value="">cityssssss</option>
+
+            </select>
 
             <label for="fname">Name</label>
             <input type="text" name="name" placeholder="Name..">
@@ -98,6 +109,10 @@
         </form>
     </div>
 
-
+    <script>
+        $(".st1").change(function () {
+            alert("Handler for .change() called.");
+        });
+    </script>
 
 </html>
