@@ -49,7 +49,8 @@ The above copyright notice and this permission notice shall be included in all c
 
 
     <div class="content">
-        <a href="{% url 'add_user' %}">Add User</a>
+        <a class="btn btn-success" href="{% url 'add_user' %}" role="button">Add User</a>
+
 
         {% for message in messages %}
         <div class="alert {{ message.tags }} alert-dismissible" role="alert">
@@ -133,8 +134,8 @@ The above copyright notice and this permission notice shall be included in all c
 
                                             <td>
                                                 <a class="btn btn-success" href="{% url 'edit_user' %} {{user.id}}"
-                                                    role="button">Edit</a> </td>
-                                            <td><a class="btn btn-danger data-sid" id="dlbtn"
+                                                    role="button">Edit</a>
+                                                <a class="btn btn-danger data-sid" id="dlbtn"
                                                     href="{% url 'delete_user' user.id %}" role="button">Delete</a>
                                             </td>
 
