@@ -25,9 +25,8 @@ urlpatterns = [
     path('edit_user/',views.edit_user,name='edit_user'),
     path('edit_user/<str:user_id>',views.edit_user,name='edit_user'),
     path('delete_user/<str:ur_id>',views.delete_user,name='delete_user'),
-
-
-
+    path('getcity/',views.getcity,name='getcity'),
+    path('getarea/',views.getarea,name='getarea'),
 ]
 
 

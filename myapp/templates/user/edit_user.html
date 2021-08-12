@@ -17,6 +17,9 @@
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <!-- JS Files -->
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- CSS Files -->
     <link href="{% static 'myapp/css/material-dashboard.css' %}" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
@@ -71,6 +74,15 @@
 <body>
     {% include 'header.html' %}
 
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message | safe }}
+    </div>
+    {% endfor %}
+
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -123,19 +135,114 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
-                                <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
-                                <div class="clearfix"></div>
-                            </form>
+                                <div class="row">
+                                    <select name="state_id" id="state_id">
+                                        {% for state in allStates %}
+                                        <option value="{{state.id}}">{{state.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="row">
+                                    <select name="city_id" id="city_id">
+                                        {% for city in allcitys %}
+                                        <option value="{{city.id}}">{{city.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="row">
+                                    <select name="area_id" id="area_id">
+                                        {% for area in allareas %}
+                                        <option value="{{area.id}}">{{area.name}}
+                                        </option>
+                                        <!-- <option value="{{area.id}}">{{area.name}} -> {{ area.city_id.name }} ->
+                                            {{ area.city_id.state_id.name }}
+                                        </option> -->
+                                        {% endfor %}
+                                    </select>
+                                </div>
                         </div>
+
+
+
+                        <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+                        <div class="clearfix"></div>
+                        </form>
                     </div>
                 </div>
-
             </div>
+
         </div>
     </div>
+    </div>
+
+
+
+    <script>
+        // for Auto Get city from select State 
+        $(document).ready(function () {
+            $("#state_id").change(function () {
+                output = "";
+                let id = $(this).val();
+                $.ajax({
+                    url: "{% url 'getcity' %}",
+                    method: "POST",
+                    data: {
+                        'state_id': id
+                    },
+                    success: function (resp) {
+                        x = resp.finalCitys;
+                        if (resp.status == 'save') {
+                            for (i = 0; i < x.length; i++) {
+                                output += `
+                                    <option value="${x[i].id}">${x[i].name}</option>
+                                `;
+                            }
+                            $("#city_id").html(output);
+                        }
+                        if (resp.status == 0) {
+                            console.log("enable to get citys ")
+                        }
+                    }
+                });
+            });
+
+            // for Get Area From select City
+            $("#city_id").change(function () {
+                output = "";
+                let id = $(this).val()
+
+                //console.log(id, "Area Click");
+
+                $.ajax({
+                    url: "{% url 'getarea' %}",
+                    method: "POST",
+                    data: {
+                        'city_id': id
+                    },
+                    success: function (resp) {
+                        y = resp.finalarea;
+                        console.log(y)
+                        if (resp.status == 'save') {
+                            for (i = 0; i < y.length; i++) {
+                                output += `
+                                    <option value="${y[i].id}">${y[i].name}</option>
+                                    `;
+                            }
+                            $("#area_id").html(output);
+                        }
+                        if (resp.status == 0) {
+                            console.log("enable to get citys ")
+                        }
+
+                    }
+
+                });
+
+
+            });
+        });
+    </script>
+
 </body>
 
 </html>

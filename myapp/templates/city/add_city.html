@@ -86,17 +86,13 @@
 
 
 
-            <select class="st1" name="state_id" id="state_id">
+            <select name="state_id" id="state_id">
                 {% for state in allStates %}
                 <option value="{{state.id}}">{{ state.name }}</option>
                 {% endfor %}
             </select>
 
-            <select class="ct1" name="state_id" id="">
 
-                <option value="">cityssssss</option>
-
-            </select>
 
             <label for="fname">Name</label>
             <input type="text" name="name" placeholder="Name..">
@@ -109,10 +105,6 @@
         </form>
     </div>
 
-    <script>
-        $(".st1").change(function () {
-            alert("Handler for .change() called.");
-        });
-    </script>
+
 
 </html>

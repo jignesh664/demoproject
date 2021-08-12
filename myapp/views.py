@@ -1,8 +1,16 @@
 
+import json
 from django.db.models.fields import related
 from django.http import request
+from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from .models import State,City,Area,User
+
+from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
+
+# for flash massages
+from django.contrib import messages
 
 
 # Create your views here.
@@ -74,7 +82,8 @@ def add_city(request):
         return redirect('/city')
     else:
         allStates = State.objects.all()
-        parmas = {'allStates': allStates}
+        allcitys=City.objects.all()
+        parmas = {'allStates': allStates,'allcitys':allcitys}
         return render(request,'city/add_city.html', parmas) 
 
 
@@ -170,17 +179,66 @@ def edit_user(request,user_id=None):
         u.email=request.POST['email']
         u.phone=request.POST['phone']
         u.address=request.POST['address']
+        u.state_id = State.objects.get(id = request.POST['state_id'])
+        u.city_id = City.objects.get(id = request.POST['city_id'])
+        u.area_id = Area.objects.get(id = request.POST['area_id'])
         u.save()
+        messages.success(request, "Success: This is the sample success Flash message.")
         return redirect('/user')
     else:
         u=User.objects.get(id=user_id)
-        params={'user':u}
+        allStates=State.objects.all()
+        allcitys=City.objects.all()
+        allareas=Area.objects.all()
+        params={'user':u,'allStates': allStates,'allcitys':allcitys,'allareas':allareas}
         return render(request,'user/edit_user.html',params)  
 
 def delete_user(request,ur_id):
     d=User.objects.get(id=ur_id)
     d.delete()
     return redirect('/user')
+
+@csrf_exempt 
+def getcity(request):
+    if request.method=="POST":
+        gtstate=State.objects.get(id=request.POST['state_id'])
+        gtcity=City.objects.filter(state_id=gtstate.id)
+        #create list of all city data
+        finalCitys = []  
+        for i in gtcity:
+            finalCitys.append({'name': i.name, 'id': i.id})  
+        return JsonResponse({'status':'save','finalCitys':finalCitys}, safe = False)  
+        #return JsonResponse(serializers.serialize('json', gtcity), safe = False)
+    else:
+        return JsonResponse({'status':0})
+
+
+@csrf_exempt
+def getarea(request):
+    if request.method=="POST":
+        gtcity=City.objects.get(id=request.POST['city_id'])
+        gtarea=Area.objects.filter(city_id=gtcity.id)
+
+        finalarea = []
+        for i in gtarea:
+            finalarea.append({'name':i.name,'id':i.id})
+        return JsonResponse({'status':'save','finalarea':finalarea}, safe=False)
+    else:
+        return JsonResponse({'status':0})
+    
+    
+
+        
+        
+        
+       
+        
+
+
+
+
+
+
 
 
 

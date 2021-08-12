@@ -33,9 +33,9 @@ class User(models.Model):
     email=models.EmailField()    
     phone=models.CharField(max_length=300)
     address=models.CharField(max_length=300)
-    state_id=models.ForeignKey(State,on_delete=models.CASCADE)
-    city_id=models.ForeignKey(City,on_delete=models.CASCADE)
-    area_id=models.ForeignKey(Area,on_delete=models.CASCADE)
+    state_id=models.ForeignKey(State,on_delete=models.PROTECT,null=True,blank=True)
+    city_id=models.ForeignKey(City,on_delete=models.PROTECT,null=True,blank=True)
+    area_id=models.ForeignKey(Area,on_delete=models.PROTECT,null=True,blank=True)
 
     def __str__(self):
         return self.name+" "+self.desc
