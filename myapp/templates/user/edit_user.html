@@ -18,7 +18,6 @@
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- JS Files -->
-    <script src="jquery-3.5.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- CSS Files -->
     <link href="{% static 'myapp/css/material-dashboard.css' %}" rel="stylesheet" />
@@ -122,6 +121,16 @@
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Phone</label>
                                             <input type="text" name="phone" value="{{user.phone}}" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">User Type</label>
+                                            <select name="user_type" id="user_type">
+                                                <option value="{{user.user_type}}">Admin</option>
+                                                <option value="{{user.user_type}}">User</option>
+                                            </select>
+
                                         </div>
                                     </div>
                                 </div>

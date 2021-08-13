@@ -22,7 +22,7 @@ def user_profile(request):
 
 
 def state(request):
-    allStates = State.objects.all()
+    allStates = State.objects.filter(is_deleted=1)
     params = {"allStates": allStates}
     return render(request,'state/state.html', params)       
 
@@ -46,27 +46,28 @@ def add_state(request):
 
 def edit_state(request,state_id = None):
     if request.method=="POST":
-        s=State.objects.get(id=request.POST['state_id'])
+        s=State.objects.get(id=request.POST['state_id'],is_deleted = 1)
         s.name=request.POST['name']
         s.desc=request.POST['desc']
         s.save()
         msg="Your State Updated Successfully"
         return redirect('/state',{'msg':msg})
     else:
-        s=State.objects.get(id=state_id)
+        s=State.objects.get(id=state_id,is_deleted = 1)
         params = {'state': s}
         return render(request,'state/edit_state.html', params) 
         
 def delete_state(request, st_id):
     s=State.objects.get(id=st_id)
-    s.delete()
+    s.is_deleted=0
+    s.save()
     return redirect('/state')
 
 
 
 
 def city(request):
-    allcitys=City.objects.all()
+    allcitys=City.objects.filter(is_deleted=1)
     params={'allcitys': allcitys}
     return render(request,'city/city.html', params)  
 
@@ -89,26 +90,26 @@ def add_city(request):
 
 def edit_city(request,city_id=None):
     if request.method=="POST":
-        c=City.objects.get(id=request.POST['city_id'])
+        c=City.objects.get(id=request.POST['city_id'],is_deleted = 1)
         c.name=request.POST['name']
         c.desc=request.POST['desc']
         c.save()
         return redirect('/city')
     else:
-        c=City.objects.get(id=city_id)
+        c=City.objects.get(id=city_id,is_deleted = 1)
         params={'city':c}
         return render(request,'city/edit_city.html',params)
 
 
 def delete_city(request,ct_id):
     c=City.objects.get(id=ct_id)
-    c.delete()
+    c.is_deleted=0
+    c.save()
     return redirect('/city')
 
 
-
 def area(request):
-    allareas=Area.objects.all()
+    allareas=Area.objects.filter(is_deleted=1)
     params={'allareas':allareas}
     return render(request,'area/area.html',params)  
 
@@ -128,24 +129,25 @@ def add_area(request):
 
 def edit_area(request,area_id=None):     
     if request.method=="POST":
-        a=Area.objects.get(id=request.POST['area_id'])
+        a=Area.objects.get(id=request.POST['area_id'],is_deleted = 1)
         a.name=request.POST['name']
         a.desc=request.POST['desc']
         a.save()
         return redirect('/area')
     else:
-        a=Area.objects.get(id=area_id)
+        a=Area.objects.get(id=area_id,is_deleted = 1)
         params={'area':a}
         return render(request,'area/edit_area.html',params)
 
 def delete_area(request,at_id):
     a=Area.objects.get(id=at_id)
-    a.delete()
+    a.is_deleted=0
+    a.save()
     return redirect('/area')
 
 
 def user(request):
-    allusers=User.objects.all()
+    allusers=User.objects.filter(is_deleted = 1)
     params={'allusers':allusers}
     return render(request,'user/user.html',params)  
    
@@ -158,6 +160,7 @@ def add_user(request):
         u.email= request.POST['email']
         u.phone = request.POST['phone']
         u.address = request.POST['address']
+        u.user_type = request.POST['user_type']
         u.state_id = State.objects.get(id = request.POST['state_id'])
         u.city_id = City.objects.get(id = request.POST['city_id'])
         u.area_id = Area.objects.get(id = request.POST['area_id'])
@@ -173,12 +176,13 @@ def add_user(request):
 
 def edit_user(request,user_id=None): 
     if request.method=="POST":
-        u=User.objects.get(id=request.POST['user_id'])
+        u=User.objects.get(id=request.POST['user_id'], is_deleted = 1)
         u.fname=request.POST['fname']
         u.lname=request.POST['lname']
         u.email=request.POST['email']
         u.phone=request.POST['phone']
         u.address=request.POST['address']
+        u.user_type = request.POST['user_type']
         u.state_id = State.objects.get(id = request.POST['state_id'])
         u.city_id = City.objects.get(id = request.POST['city_id'])
         u.area_id = Area.objects.get(id = request.POST['area_id'])
@@ -186,7 +190,7 @@ def edit_user(request,user_id=None):
         messages.success(request, "Success: This is the sample success Flash message.")
         return redirect('/user')
     else:
-        u=User.objects.get(id=user_id)
+        u=User.objects.get(id=user_id, is_deleted = 1)
         allStates=State.objects.all()
         allcitys=City.objects.all()
         allareas=Area.objects.all()
@@ -195,9 +199,12 @@ def edit_user(request,user_id=None):
 
 def delete_user(request,ur_id):
     d=User.objects.get(id=ur_id)
-    d.delete()
+    #soft delete
+    d.is_deleted=0
+    d.save()
     return redirect('/user')
-
+    #d.delete()
+    
 @csrf_exempt 
 def getcity(request):
     if request.method=="POST":
