@@ -61,6 +61,8 @@ The above copyright notice and this permission notice shall be included in all c
         </div>
         {% endfor %}
 
+
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -102,10 +104,11 @@ The above copyright notice and this permission notice shall be included in all c
                                             User Type
                                         </th>
                                         <th>
-                                            Action
-                                        </th>
-                                        <th>
                                             Status
+                                        </th>
+
+                                        <th>
+                                            Action
                                         </th>
 
                                     </thead>
@@ -140,19 +143,24 @@ The above copyright notice and this permission notice shall be included in all c
                                                 {{ user.user_type }}
                                             </td>
                                             <td>
+                                                <div class="col-md-1">
+                                                    <div class="form-group">
+                                                        <label class="bmd-label-floating"></label>
+                                                        <label class="switch">
+                                                            <input type="checkbox" data-value="{{user.id}}"
+                                                                class="is_active" name="is_active"
+                                                                {% if user.is_active == 'active' %} checked{% endif %}>
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
                                                 <a class="btn btn-success" href="{% url 'edit_user' %}{{user.id}}"
                                                     role="button">Edit</a>
                                                 <a class="btn btn-danger data-sid" id="dlbtn"
                                                     href="{% url 'delete_user' user.id %}" role="button">Delete</a>
                                             </td>
-                                            <td>
-                                                <label class="switch">
-                                                    <input type="checkbox" checked>
-                                                    <span class="slider round"></span>
-                                                </label>
-
-                                            </td>
-
                                         </tr>
                                         {% endfor %}
 
@@ -175,7 +183,6 @@ The above copyright notice and this permission notice shall be included in all c
             console.log(id);
         });
     </script>
-
 
     <style>
         .switch {

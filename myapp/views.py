@@ -2,7 +2,7 @@
 import json
 from django.db.models.fields import related
 from django.http import request
-from django.http.response import JsonResponse
+from django.http.response import Http404, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from .models import State,City,Area,User
 
@@ -28,9 +28,14 @@ def state(request):
 
 def add_state(request):
     if request.method=="POST":
+        try:
+            active_status = "active" if request.POST['is_active'] == 'on' else "deactive"
+        except Exception as e:
+            active_status = "deactive"
         s = State()
         s.name = request.POST['name']
         s.desc = request.POST['desc']
+        s.is_active=active_status
         s.save()
         # State.objects.create(
         #     name=request.POST['name'],
@@ -70,14 +75,33 @@ def city(request):
     allcitys=City.objects.filter(is_deleted=1)
     params={'allcitys': allcitys}
     return render(request,'city/city.html', params)  
+    
+@csrf_exempt
+def change_status_city(request):
+    if request.method == "POST":
+        city = City.objects.get(id=request.POST['is_active'])
+        active_status = "active" if request.POST['checked'] == 'true' else "deactive"
+        city.is_active=active_status
+        city.save()
+        return JsonResponse({'success': True, 'message': 'Update Changed.'}, safe=False)
+    else:
+        return JsonResponse({'success': False, 'message': 'Something went wrong.!'}, safe=False)
+
+
+
 
 def add_city(request):
     if request.method == "POST":
+        try:
+            active_status = "active" if request.POST['is_active'] == 'on' else "deactive"
+        except Exception as e:
+            active_status = "deactive"
 
         c = City()
         c.state_id = State.objects.get(id=request.POST['state_id'])
         c.name = request.POST['name']
         c.desc = request.POST['desc']
+        c.is_active=active_status
         c.save()
         
         return redirect('/city')
@@ -115,10 +139,15 @@ def area(request):
 
 def add_area(request):
     if request.method=="POST":
+        try:
+            active_status="active" if request.POST['is_active'] == 'on' else "deactive"
+        except Exception as e:
+            active_status="deactive"
         a=Area()
         a.city_id=City.objects.get(id=request.POST['city_id'])
         a.name=request.POST['name']
         a.desc=request.POST['desc']
+        a.is_active=active_status
         a.save()
         return redirect('/area')
     else:
@@ -154,18 +183,27 @@ def user(request):
 
 def add_user(request):
     if request.method=="POST":
-        u=User()
-        u.fname = request.POST['fname']
-        u.lname = request.POST['lname']
-        u.email= request.POST['email']
-        u.phone = request.POST['phone']
-        u.address = request.POST['address']
-        u.user_type = request.POST['user_type']
-        u.state_id = State.objects.get(id = request.POST['state_id'])
-        u.city_id = City.objects.get(id = request.POST['city_id'])
-        u.area_id = Area.objects.get(id = request.POST['area_id'])
-        u.save()
-        return redirect('/user')
+        try:
+            User.objects.get(email=request.POST['email'])
+            msg="This Email already Registred.."
+            return render(request,'user/add_user.html',{'msg':msg}) 
+        except User.DoesNotExist as ex:    
+            u=User()
+            u.fname = request.POST['fname']
+            u.lname = request.POST['lname']
+            u.email= request.POST['email']
+            u.phone = request.POST['phone']
+            u.address = request.POST['address']
+            u.user_type = request.POST['user_type']
+            u.state_id = State.objects.get(id = request.POST['state_id'])
+            u.city_id = City.objects.get(id = request.POST['city_id'])
+            u.area_id = Area.objects.get(id = request.POST['area_id'])
+            if(request.POST['is_active'] == 'on'):
+                u.is_active="active"
+            else:
+                u.is_active="deactive"
+            u.save()
+            return redirect('/user')
     else:
         allStates = State.objects.all()
         allcitys=City.objects.all()

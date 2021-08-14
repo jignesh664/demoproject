@@ -27,6 +27,7 @@ urlpatterns = [
     path('delete_user/<str:ur_id>',views.delete_user,name='delete_user'),
     path('getcity/',views.getcity,name='getcity'),
     path('getarea/',views.getarea,name='getarea'),
+    path('change_status_city/',views.change_status_city,name='change_status_city'),
 ]
 
 
