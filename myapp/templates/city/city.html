@@ -46,6 +46,60 @@ The above copyright notice and this permission notice shall be included in all c
 
     <div class="content">
         <a class="btn btn-success" href="{% url 'add_city' %}" role="button">Add City</a>
+        <!--For Alert massges css-->
+        <style>
+            .alert {
+                padding: 20px;
+                background-color: hsl(120, 92%, 20%);
+                color: white;
+            }
+
+
+            .alert_delete {
+                padding: 20px;
+                background-color: hsl(0, 90%, 43%);
+                color: white;
+            }
+
+            .closebtn {
+                margin-left: 15px;
+                color: white;
+                font-weight: bold;
+                float: right;
+                font-size: 22px;
+                line-height: 20px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+            .closebtn:hover {
+                color: black;
+            }
+        </style>
+
+        {% if messages %}
+        <ul class="messages">
+            {% for msg in messages %}
+            {% if msg.tags == 'success' %}
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>{{msg}}</strong>
+            </div>
+            {% elif msg.tags == 'warning' %}
+            <div class="alert_delete">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>{{msg}}</strong>
+            </div>
+            {% else %}
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>{{msg}}</strong>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">

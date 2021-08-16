@@ -3,7 +3,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('',views.dashboard,name='dashboard'),
+    path('dashboard',views.dashboard,name='dashboard'),
     path('user_profile/',views.user_profile,name='user_profile'),
     path('state/',views.state,name='state'),
     path('add_state/',views.add_state,name='add_state'),
@@ -28,7 +28,16 @@ urlpatterns = [
     path('getcity/',views.getcity,name='getcity'),
     path('getarea/',views.getarea,name='getarea'),
     path('change_status_city/',views.change_status_city,name='change_status_city'),
-]
+    path('change_status_state/',views.change_status_state,name='change_status_state'),
+    path('change_status_area/',views.change_status_area,name='change_status_area'),
+    path('change_status_user/',views.change_status_user,name='change_status_user'),
+    path('',views.admin_login,name='admin_login'),
+    path('logout/',views.logout,name='logout'),
+    
+    ]
+
+
+
 
 
 

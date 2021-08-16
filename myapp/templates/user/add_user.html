@@ -33,9 +33,6 @@
 
 
     <div class="content">
-        {% if msg %}
-        <span style="color: rgb(43, 10, 228);">{{msg}}</span>
-        {% endif %}
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-8">
@@ -47,17 +44,52 @@
                         <div class="card-body">
                             <form method="POST" action="{% url 'add_user' %}">
                                 {% csrf_token %}
+                                <!--for flash massege-->
+                                <style>
+                                    .alert {
+                                        padding: 20px;
+                                        background-color: hsl(357, 89%, 49%);
+                                        color: white;
+                                    }
+
+                                    .closebtn {
+                                        margin-left: 15px;
+                                        color: white;
+                                        font-weight: bold;
+                                        float: right;
+                                        font-size: 22px;
+                                        line-height: 20px;
+                                        cursor: pointer;
+                                        transition: 0.3s;
+                                    }
+
+                                    .closebtn:hover {
+                                        color: black;
+                                    }
+                                </style>
+
+                                {% if messages %}
+                                <ul class="messages">
+                                    {% for msg in messages %}
+                                    <div class="alert">
+                                        <span class="closebtn"
+                                            onclick="this.parentElement.style.display='none';">&times;</span>
+                                        <strong>{{msg}}</strong>
+                                    </div>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">First Name</label>
-                                            <input type="text" name="fname" class="form-control">
+                                            <input type="text" name="fname" class="form-control" required="required">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Last Name</label>
-                                            <input type="text" name="lname" class="form-control">
+                                            <input type="text" name="lname" class="form-control" required="required">
                                         </div>
                                     </div>
                                 </div>
@@ -65,19 +97,19 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Email address</label>
-                                            <input type="email" name="email" class="form-control">
+                                            <input type="email" name="email" class="form-control" required="required">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Phone</label>
-                                            <input type="text" name="phone" class="form-control">
+                                            <input type="text" name="phone" class="form-control" required="required">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">User Type</label>
-                                            <select name="user_type" id="user_type">
+                                            <select name="user_type" id="user_type" required="required">
                                                 <option value="admin">Admin</option>
                                                 <option value="user">User</option>
                                             </select>
@@ -91,7 +123,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Address</label>
-                                            <input type="text" name="address" class="form-control">
+                                            <input type="text" name="address" class="form-control" required="required">
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +131,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="bmd-label-floating sid">State_ID</label>
-                                            <select name="state_id" id="state_id">
+                                            <select name="state_id" id="state_id" required="required">
                                                 {% for state in allStates %}
                                                 <option value="{{state.id}}">{{ state.name }}</option>
                                                 {% endfor %}
@@ -110,7 +142,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">City_ID</label>
-                                            <select name="city_id" id="city_id">
+                                            <select name="city_id" id="city_id" required="required">
                                                 {% for city in allcitys %}
                                                 <option value="{{city.id}}">{{city.name }}</option>
                                                 {% endfor %}
@@ -121,7 +153,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Area_ID</label>
-                                            <select name="area_id" id="area_id">
+                                            <select name="area_id" id="area_id" required="required">
                                                 {% for area in allareas %}
                                                 <option value="{{area.id}}">{{area.name }}</option>
                                                 {% endfor %}

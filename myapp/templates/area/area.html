@@ -22,7 +22,9 @@ The above copyright notice and this permission notice shall be included in all c
     <title>
         Welcome to DivyaBhaskar Dashboard
     </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -39,6 +41,60 @@ The above copyright notice and this permission notice shall be included in all c
 
     <div class="content">
         <a class="btn btn-success" href="{% url 'add_area' %}" role="button">Add Area </a>
+        <!--For Alert massges css-->
+        <style>
+            .alert {
+                padding: 20px;
+                background-color: hsl(120, 92%, 20%);
+                color: white;
+            }
+
+
+            .alert_delete {
+                padding: 20px;
+                background-color: hsl(0, 90%, 43%);
+                color: white;
+            }
+
+            .closebtn {
+                margin-left: 15px;
+                color: white;
+                font-weight: bold;
+                float: right;
+                font-size: 22px;
+                line-height: 20px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+            .closebtn:hover {
+                color: black;
+            }
+        </style>
+
+        {% if messages %}
+        <ul class="messages">
+            {% for msg in messages %}
+            {% if msg.tags == 'success' %}
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>{{msg}}</strong>
+            </div>
+            {% elif msg.tags == 'warning' %}
+            <div class="alert_delete">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>{{msg}}</strong>
+            </div>
+            {% else %}
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>{{msg}}</strong>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -174,6 +230,57 @@ The above copyright notice and this permission notice shall be included in all c
             border-radius: 50%;
         }
     </style>
+
+    <script>
+        $(document).ready(function () {
+            $(".is_active").change(function () {
+                let id = $(this).attr('data-value');
+                let mainElement = $(this);
+                // console.log($(this).prop('checked'), id, "Data...");
+
+                swal({
+                        title: "Are you sure?",
+                        text: "You will Changes Status of this Area!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                        allowOutsideClick: false,
+                        closeOnClickOutside: false,
+                        closeOnEsc: false
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            $.ajax({
+                                url: "{% url 'change_status_area' %}",
+                                method: "POST",
+                                data: {
+                                    'is_active': id,
+                                    'checked': $(this).prop('checked')
+                                },
+                                success: function (resp) {
+                                    resp.is_active;
+                                    if (resp.success == true) {
+                                        swal("Area status updated SuccessFully.", {
+                                            icon: "success",
+                                        });
+                                    } else {
+                                        swal("Something went Wrong.!", {
+                                            icon: "error",
+                                        });
+                                    }
+                                }
+                            });
+                        } else {
+                            if ($(this).prop("checked") == true) {
+                                $(this).prop("checked", false);
+                            } else {
+                                $(this).prop("checked", true);
+                            }
+                        }
+                    });
+            });
+        });
+    </script>
 </body>
 
 </html>

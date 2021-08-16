@@ -44,6 +44,9 @@ class User(models.Model):
     area_id=models.ForeignKey(Area,on_delete=models.PROTECT,null=True,blank=True)
     is_deleted = models.IntegerField(default=1)
     is_active = models.CharField(max_length=300,default="inactive")
+    is_login=models.BooleanField(default=False)
+
+
 
     def __str__(self):
         return self.name+" "+self.desc
