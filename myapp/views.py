@@ -12,25 +12,42 @@ from django.core import serializers
 # for flash massages
 from django.contrib import messages
 
+# for check session first only chech_session function call
+from mysite.project_session import check_session
 
-# Create your views here.
+# for check all as per requirnment function call
+# from mysite.project_session import *
+
+from django.views.decorators.cache import cache_control
+
+
+@check_session
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)
 def dashboard(request):
     return render(request,'dashboard.html')
 
+@check_session 
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)            
 def user_profile(request):
     return render(request,'user_profile.html')
-
-
+   
+@check_session  
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True) 
 def state(request):
     allStates = State.objects.filter(is_deleted=1)
     params = {"allStates": allStates}
     return render(request,'state/state.html', params)   
 
+   
+
 @csrf_exempt
+@check_session 
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)  
 def change_status_state(request):
     if request.method == "POST":
         state = State.objects.get(id=request.POST['is_active'])
-        active_status = "active" if request.POST['checked'] == 'True' else "deactive"
+        active_status = "active" if request.POST['checked'] == 'true' else "deactive"
+        print(active_status)
         state.is_active=active_status
         state.save()
         return JsonResponse({'success': True, 'message': 'Update Changed.'}, safe=False)
@@ -38,7 +55,8 @@ def change_status_state(request):
         return JsonResponse({'success': False, 'message': 'Something went wrong.!'}, safe=False)
     
 
-
+@check_session  
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True) 
 def add_state(request):
     if request.method=="POST":
         try:
@@ -56,8 +74,11 @@ def add_state(request):
         #return redirect('/')
         return redirect('/state')
     else:
-        return render(request,'state/add_state.html')    
+        return render(request,'state/add_state.html') 
+            
 
+@check_session  
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True) 
 def edit_state(request,state_id = None):
     if request.method=="POST":
         s=State.objects.get(id=request.POST['state_id'],is_deleted = 1)
@@ -70,27 +91,34 @@ def edit_state(request,state_id = None):
         s=State.objects.get(id=state_id,is_deleted = 1)
         params = {'state': s}
         return render(request,'state/edit_state.html', params) 
-        
+    
+
+@check_session  
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True) 
 def delete_state(request, st_id):
     s=State.objects.get(id=st_id)
     s.is_deleted=0
     s.save()
     messages.add_message(request, messages.WARNING,"State Delete successfully.")
     return redirect('/state')
+    
 
 
-
-
+@check_session  
 def city(request):
     allcitys=City.objects.filter(is_deleted=1)
     params={'allcitys': allcitys}
     return render(request,'city/city.html', params)  
-    
+   
+
+  
 @csrf_exempt
+@check_session 
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)  
 def change_status_city(request):
     if request.method == "POST":
         city = City.objects.get(id=request.POST['is_active'])
-        active_status = "active" if request.POST['checked'] == 'True' else "deactive"
+        active_status = "active" if request.POST['checked'] == 'true' else "deactive"
         city.is_active=active_status
         city.save()
         return JsonResponse({'success': True, 'message': 'Update Changed.'}, safe=False)
@@ -99,7 +127,8 @@ def change_status_city(request):
 
 
 
-
+@check_session 
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)  
 def add_city(request):
     if request.method == "POST":
         try:
@@ -120,8 +149,10 @@ def add_city(request):
         allcitys=City.objects.all()
         parmas = {'allStates': allStates,'allcitys':allcitys}
         return render(request,'city/add_city.html', parmas) 
+    
 
-
+@check_session 
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)  
 def edit_city(request,city_id=None):
     if request.method=="POST":
         c=City.objects.get(id=request.POST['city_id'],is_deleted = 1)
@@ -136,24 +167,32 @@ def edit_city(request,city_id=None):
         return render(request,'city/edit_city.html',params)
 
 
+@check_session 
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)  
 def delete_city(request,ct_id):
     c=City.objects.get(id=ct_id)
     c.is_deleted=0
     c.save()
     messages.add_message(request, messages.WARNING,"City Delete successfully.")
     return redirect('/city')
+   
 
-
+@check_session
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)   
 def area(request):
     allareas=Area.objects.filter(is_deleted=1)
     params={'allareas':allareas}
     return render(request,'area/area.html',params) 
 
+
+
 @csrf_exempt
+@check_session 
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)  
 def change_status_area(request):
     if request.method == "POST":
         area = Area.objects.get(id=request.POST['is_active'])
-        active_status = "active" if request.POST['checked'] == 'True' else "deactive"
+        active_status = "active" if request.POST['checked'] == 'true' else "deactive"
         area.is_active=active_status
         area.save()
         return JsonResponse({'success': True, 'message': 'Update Changed.'}, safe=False)
@@ -161,7 +200,8 @@ def change_status_area(request):
         return JsonResponse({'success': False, 'message': 'Something went wrong.!'}, safe=False)
 
 
-
+@check_session 
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)  
 def add_area(request):
     if request.method=="POST":
         try:
@@ -180,9 +220,11 @@ def add_area(request):
         allcitys=City.objects.all()
         params={'allcitys':allcitys}   
         return render(request,'area/add_area.html',params)   
+    
 
-
-def edit_area(request,area_id=None):     
+@check_session 
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)  
+def edit_area(request,area_id=None): 
     if request.method=="POST":
         a=Area.objects.get(id=request.POST['area_id'],is_deleted = 1)
         a.name=request.POST['name']
@@ -194,22 +236,29 @@ def edit_area(request,area_id=None):
         a=Area.objects.get(id=area_id,is_deleted = 1)
         params={'area':a}
         return render(request,'area/edit_area.html',params)
+        
 
+@check_session 
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)  
 def delete_area(request,at_id):
     a=Area.objects.get(id=at_id)
     a.is_deleted=0
     a.save()
     messages.add_message(request, messages.WARNING,"Area Delete successfully.")
     return redirect('/area')
+     
 
-
+@check_session  
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True) 
 def user(request):
     allusers=User.objects.filter(is_deleted = 1)
     params={'allusers':allusers}
     return render(request,'user/user.html',params)  
-   
+       
 
 @csrf_exempt
+@check_session 
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)   
 def change_status_user(request):
     if request.method=="POST":
         user=User.objects.get(id=request.POST['is_active'])
@@ -221,7 +270,8 @@ def change_status_user(request):
         return JsonResponse({'success': False , 'massage':'something went wrong'},safe=False)
         
 
-
+@check_session
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)   
 def add_user(request):
     if request.method=="POST":
         try:
@@ -252,8 +302,10 @@ def add_user(request):
         allareas=Area.objects.all()
         parmas = {'allStates': allStates,'allcitys':allcitys,'allareas':allareas}
         return render(request,'user/add_user.html', parmas) 
+    
 
-
+@check_session
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)
 def edit_user(request,user_id=None): 
     if request.method=="POST":
         u=User.objects.get(id=request.POST['user_id'], is_deleted = 1)
@@ -277,6 +329,10 @@ def edit_user(request,user_id=None):
         params={'user':u,'allStates': allStates,'allcitys':allcitys,'allareas':allareas}
         return render(request,'user/edit_user.html',params)  
 
+
+
+@check_session
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)
 def delete_user(request,ur_id):
     d=User.objects.get(id=ur_id)
     #soft delete
@@ -285,7 +341,9 @@ def delete_user(request,ur_id):
     messages.add_message(request, messages.WARNING,"User Delete successfully.")
     return redirect('/user')
     #d.delete()
-    
+
+
+
 @csrf_exempt 
 def getcity(request):
     if request.method=="POST":
@@ -301,6 +359,7 @@ def getcity(request):
         return JsonResponse({'status':0})
 
 
+
 @csrf_exempt
 def getarea(request):
     if request.method=="POST":
@@ -314,7 +373,8 @@ def getarea(request):
     else:
         return JsonResponse({'status':0})
     
-    
+
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True) 
 def admin_login(request):
     if request.method=="POST":
         try:    
@@ -325,7 +385,7 @@ def admin_login(request):
                 #request.session['user]=serialisers.serialze('json,user)
                 user.is_login=True
                 user.save()
-                messages.add_message(request, messages.SUCCESS,"Login Successfully")
+                messages.add_message(request, messages.SUCCESS,"Hi u have Login Successfully")
 
                 return redirect('dashboard')
         except Exception as e:
@@ -336,7 +396,8 @@ def admin_login(request):
     else:
         return render(request,'admin_login.html')
 
-
+@check_session
+@cache_control(no_cache=True ,must_revalidate=True ,no_store=True)
 def logout(request):
     user=User.objects.get(email=request.session['email'])
     user.is_login=False
@@ -345,12 +406,13 @@ def logout(request):
     messages.add_message(request, messages.WARNING,"Logout successfully.")
     return redirect('/')
 
+def forgot_pass(request):
+    return render(request,'forgot_pass.html')
 
-
-        
-        
+             
        
         
+
 
 
 

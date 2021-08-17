@@ -33,7 +33,7 @@ urlpatterns = [
     path('change_status_user/',views.change_status_user,name='change_status_user'),
     path('',views.admin_login,name='admin_login'),
     path('logout/',views.logout,name='logout'),
-    
+    path('forgot_pass/',views.forgot_pass,name='forgot_pass'),
     ]
 
 

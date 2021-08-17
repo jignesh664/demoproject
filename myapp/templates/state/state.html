@@ -161,17 +161,21 @@ The above copyright notice and this permission notice shall be included in all c
                                                 {{ state.desc }}
                                             </td>
                                             <td>
-                                                <div class="col-md-1">
-                                                    <div class="form-group">
-                                                        <label class="bmd-label-floating"></label>
-                                                        <label class="switch">
-                                                            <input type="checkbox" data-value="{{state.id}}"
-                                                                class="is_active" name="is_active"
-                                                                {% if state.is_active == 'active' %} checked{% endif %}>
-                                                            <span class="slider round"></span>
-                                                        </label>
+                                                <form method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="col-md-1">
+                                                        <div class="form-group">
+                                                            <label class="bmd-label-floating"></label>
+                                                            <label class="switch">
+                                                                <input type="checkbox" data-value='{{state.id}}'
+                                                                    class='is_active' name='is_active'
+                                                                    {% if state.is_active == 'active' %}
+                                                                    checked{% endif %}>
+                                                                <span class="slider round"></span>
+                                                            </label>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </form>
                                             </td>
                                             <td>
                                                 <a class="btn btn-success" href="{% url 'edit_state' %}{{ state.id }}"
@@ -262,7 +266,7 @@ The above copyright notice and this permission notice shall be included in all c
             $(".is_active").change(function () {
                 let id = $(this).attr('data-value');
                 let mainElement = $(this);
-                // console.log($(this).prop('checked'), id, "Data...");
+                //console.log($(this).prop('checked'), id, "Data...");
 
                 swal({
                         title: "Are you sure?",
