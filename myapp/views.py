@@ -409,6 +409,9 @@ def logout(request):
 def forgot_pass(request):
     return render(request,'forgot_pass.html')
 
+
+    
+
              
        
         

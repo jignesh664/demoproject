@@ -14,6 +14,7 @@
     <!-- JS Files -->
     <script src="{% static 'myapp/demo/demo.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -27,7 +28,7 @@
 
 </head>
 
-<body class="">
+<body>
     <div class="wrapper ">
         <div class="sidebar" data-color="purple" data-background-color="white"
             data-image="{% static 'myapp/img/sidebar-1.jpg' %}">
@@ -166,18 +167,7 @@
                 </div>
             </nav>
 
-            <!--Testing by jignesh-->
-            <script>
-                // $(document).ready(function () {
-                // $("#btn_search").on("keyup", function () {
-                //     var value =
-                //         $(this).val().toLowerCase();
-                //     $("#bt1_search").filter(function () {
-                //         $(this).toggle($(this).text().toLowerCase().indexof(value) > -1)
-                //     });
-                // });
 
-                // });
-            </script>
-            <!-- End Navbar -->
+
             {% endblock %}
+</body>
