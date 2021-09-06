@@ -1,10 +1,12 @@
 
 import json
+from django.db import connection, reset_queries
+from django.db.models import query
 from django.db.models.fields import related
 from django.http import request
 from django.http.response import Http404, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from .models import State,City,Area,User
+from .models import State,City,Area,User,Customer,Order,Product
 
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
@@ -20,11 +22,81 @@ from mysite.project_session import check_session
 
 from django.views.decorators.cache import cache_control
 
+def runsql(q):
+    cursor=connection.cursor()
+    cursor.execute(q)
+    if (cursor.description!=None):
+        columns=[col [0] for  col in cursor.description]
+        return[
+            dict(zip(columns,row))
+            for row in cursor.fetchall()
+        ]
+    else:
+        return True    
 
+
+
+@csrf_exempt
 @check_session
 @cache_control(no_cache=True ,must_revalidate=True ,no_store=True)
 def dashboard(request):
-    return render(request,'dashboard.html')
+    c=Customer.objects.all()
+    o=Order.objects.all()
+    # for remove dublicates values 
+    records = Customer.objects.filter().values('state').distinct()
+    records = [x['state'] for x in records]
+    #citys =Customer.objects.filter().values('city')
+    #citys=[y['city'] for y in citys]
+    #print(records)
+    params={'c':c,'o':o,'records': records}
+    return render (request,'dashboard.html',params)
+
+
+
+@csrf_exempt
+def get_city(request):
+    if request.method=="POST":
+        allconditions=""
+        city=request.POST.getlist('state[]')
+        #print(city)
+        finalcity=str(tuple(city)) if len(city) > 1 else str(tuple(city)).replace(',','') 
+        if (city):
+            allconditions +=f" AND state in {finalcity}"
+        querys=f"SELECT DISTINCT city FROM myapp_customer WHERE 1 = 1 {allconditions};"
+        data=runsql(querys)
+        #print(data)
+        return JsonResponse({'status':'save','data':data},safe=False)
+    else:
+        return JsonResponse({'status':0,})    
+
+
+
+def get_data(request):
+    if request.method=="POST":
+        allconditions=""
+
+        state=request.POST.getlist('state[]')
+        finalstate=str(tuple(state)) if len(state) >1 else str(tuple(state)).replace(',','')
+        if (state):
+            allconditions +=f" AND c.state in {finalstate}"
+
+        city=request.POST.getlist('city[]')
+        finalcity=str(tuple(city)) if len(city) > 1 else str(tuple(city)).replace(',','')
+        if (city):
+            allconditions+=f" AND c.city in {finalcity}"
+
+         
+
+        querys=""
+        data=runsql(querys)
+        return JsonResponse({'status':'save','data':data}, safe=False)
+
+    else:
+        return JsonResponse()    
+
+
+   
+   
 
 @check_session 
 @cache_control(no_cache=True ,must_revalidate=True ,no_store=True)            
@@ -265,7 +337,7 @@ def change_status_user(request):
         active_status="active"  if request.POST['checked'] == 'true'  else "deactive"
         user.is_active=active_status
         user.save()
-        return JsonResponse({'success': True ,' massage':'Updated Successfully !'},safe=False)
+        return JsonResponse({'success': True ,'massage':'Updated Successfully !'},safe=False)
     else:
         return JsonResponse({'success': False , 'massage':'something went wrong'},safe=False)
         
@@ -410,7 +482,7 @@ def forgot_pass(request):
     return render(request,'forgot_pass.html')
 
 
-    
+   
 
              
        

@@ -132,7 +132,7 @@
                                         <div class="form-group">
                                             <label class="bmd-label-floating sid">State_ID</label>
                                             <select name="state_id" id="state_id" required="required">
-                                                {% for state in allStates %}
+                                                {% for state in finalstates %}
                                                 <option value="{{state.id}}">{{ state.name }}</option>
                                                 {% endfor %}
                                             </select>
