@@ -13,9 +13,6 @@
         Welcome to DivyaBhaskar Dashboard
     </title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-    <!-- JS Files -->
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -28,22 +25,22 @@
     <link href="{% static 'myapp/css/style.css' %}" />
 
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!--calander js-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.css">
+
 
 </head>
 
+
 <body class="">
 
-
-    <div class="wrapper ">
+    <div class="wrapper">
         <div class="sidebar" data-color="purple" data-background-color="white"
             data-image="{% static 'myapp/img/sidebar-1.jpg' %}">
-            <!--
-        Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
-        Tip 2: you can also add an image using data-image tag
-    -->
             <div class="logo"><a href="/" class="simple-text logo-normal">
                     Jignesh
                 </a></div>
@@ -102,6 +99,8 @@
 
             </div>
         </div>
+
+
         <div class="main-panel">
 
 
@@ -163,7 +162,7 @@
                     <div class="collapse navbar-collapse justify-content-end">
                         <form class="navbar-form">
                             <div class="input-group no-border">
-                                <input type="text" value="" class="form-control" placeholder="Search...">
+                                <input type="text" class="form-control" placeholder="Search...">
                                 <button type="submit" class="btn btn-white btn-round btn-just-icon">
                                     <i class="material-icons">search</i>
                                     <div class="ripple-container"></div>
@@ -196,260 +195,220 @@
                 </div>
             </nav>
             <!-- End Navbar -->
+            <br>
+            <br>
 
-            <div class="container p-30">
-                <div class="row">
-                    <div class="col-md-12 main-datatable">
-                        <div class="card_body">
-                            <div class="row d-flex">
-                                <div class="col-sm-12 createSegment">
-
-                                    <form name="customer" id="form1" method="POST" action="">
-
-                                        <h4 style="color: chocolate;">State</h4>
-
-                                        {% for i in records %}
-                                        <input type="checkbox" id="state" class="state" value="{{ i }}" name="state[]">
-                                        <label for="scales{{ i }}">{{i}}</label>
-                                        {% endfor %}
+            <div class="container-fluid">
 
 
-                                        <h4 style="color: chocolate;">City</h4>
-                                        <div id="cityHolder">
-                                        </div>
-                                        <br>
+                <form name="customer" id="form1" method="POST" action="">
 
-                                        <h4 style="color: chocolate;">Customer Rg.Date</h4>
-                                        <p>From Date: <input type="text" id="my_date_picker" name="fdate"></p>
-                                        <p>To Date: &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="my_date_picker1"
-                                                name="tdate"></p>
+                    <h4 style="color: chocolate;">State</h4>
 
-                                        <input type="button" class="btn btn-success" id="btnedit" value="Submit">
-
-                                    </form>
-                                </div>
-
-                                <div class="col-sm-6 createSegment">
-                                    <div class="form-group searchInput">
-                                        <label for="email">Search:</label>
-                                        <input type="search" class="form-control" id="filterbox">
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="overflow-x">
-                            <table style="width:100%;" id="filtertable" data-column="1"
-                                class="table cust-datatable dataTable no-footer" border="1">
-                                <thead id="theads">
-                                    <tr>
-
-                                        <th style="min-width:100px; display: '';" id="fname">First Name</th>
-                                        <th style="min-width:100px; display: '';" id="mobileh">Mobile</th>
-                                        <th style="min-width:100px; display:'';" id="stateh">State</th>
-                                        <th style="min-width:100px; display:none;" id="cityh">City</th>
-                                        <th style="min-width:100px; display: '';" id="ordern">Order No.</th>
-                                        <th style="min-width:100px; display: '';" id="orderd">Order date</th>
-                                        <th style="min-width:100px; display: '';" id="orderp">Order Price</th>
-                                        <th style="min-width:100px; display: '';" id="productn">Product Name</th>
-                                        <th style="min-width:100px; display: '';" id="productp ">Product Price</th>
+                    {% for i in records %}
+                    <input type="checkbox" id="state" class="state" value="{{ i }}" name="state[]">
+                    <label for="scales{{ i }}">{{i}}</label>
+                    {% endfor %}
 
 
-                                    </tr>
-                                </thead>
-                                <tbody class="tbody">
 
-                                </tbody>
-                            </table>
-                        </div>
+                    <h4 style="color: chocolate;">City</h4>
+                    <div id="cityHolder">
                     </div>
-                </div>
+                    <br>
+
+                    <h4 style="color: chocolate;">Customer Rg.Date</h4>
+                    <p>From Date: <input type="text" id="my_date_picker" name="fdate"></p>
+                    <p>To Date: &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="my_date_picker1" name="tdate">
+                    </p>
+
+                    <input type="button" class="btn btn-success" id="btnedit" value="Submit">
+
+                </form>
+
             </div>
 
 
+            <table id="table_id" class="display">
 
-            <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-            <script src="https://cdn.datatables.net/1.10.14/js/jquery.dataTables.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+                <thead id="theads">
+                    <tr>
+
+                        <th style="display:'';" id="fname">First Name</th>
+                        <th style="display:'';" id="mobileh">Mobile</th>
+                        <th style="display:'';" id="stateh">State</th>
+                        <th style="display:none;" id="cityh">City</th>
+                        <th style="display:'';" id="ordern">Order No.</th>
+                        <th style="display:'';" id="orderd">Order date</th>
+                        <th style="display:'';" id="orderp">Order Price</th>
+                        <th style="display:'';" id="productn">Product Name</th>
+                        <th style="display:'';" id="productp ">Product Price</th>
+
+                    </tr>
+                </thead>
+                <tbody class="tbody">
+
+                </tbody>
+            </table>
+
+        </div>
 
 
-            <script>
-                $(document).ready(function () {
-                    $("#my_date_picker").datepicker({
-                        dateFormat: 'yy-mm-dd'
+        <!-- JS Files -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <!--calander js-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.js">
+        </script>
+
+
+
+
+
+        <script>
+            $(document).ready(function () {
+
+                $('#table_id').DataTable();
+
+
+                $("#my_date_picker").datepicker({
+                    dateFormat: 'yy-mm-dd'
+                });
+
+                $("#my_date_picker1").datepicker({
+                    dateFormat: 'yy-mm-dd'
+                });
+
+
+                $('.state').change(function () {
+                    console.log("Here...");
+                    output = "";
+
+                    let stateLst = []
+                    $('.state:checked').each(function () {
+                        stateLst.push($(this).val());
                     });
 
-                    $("#my_date_picker1").datepicker({
-                        dateFormat: 'yy-mm-dd'
-                    });
-
-                    var dataTable = $('#filtertable').DataTable({
-
-                        "pageLength": 5,
-                        'aoColumnDefs': [{
-                            'bSortable': true,
-                            'aTargets': ['nosort'],
-                        }],
-                        scrollY: "500px",
-                        scrollX: true,
-                        scrollCollapse: true,
-                        columnDefs: [{
-                            width: '20%',
-                            targets: 0
-                        }],
-                        fixedColumns: true,
-
-                        columnDefs: [{
-                            type: 'date-dd-mm-yyyy',
-                            aTargets: [5]
-                        }],
-                        "aoColumns": [
-
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null
-                        ],
-                        "order": false,
-                        "bLengthChange": false,
-                        "dom": '<"top">ct<"top"p><"clear">',
-                    });
-
-
-                    $('.state').change(function () {
-                        output = "";
-
-                        let stateLst = []
-                        $('.state:checked').each(function () {
-                            stateLst.push($(this).val());
-                        });
-
-                        $.ajax({
-                            url: "{% url 'get_city' %}",
-                            method: "POST",
-                            data: {
-                                'state[]': stateLst
-                            },
-                            success: function (resp) {
-                                x = resp.data;
-                                if (resp.data == 'save') {
-                                    for (i = 0; i < x.length; i++) {
-                                        output += `
+                    $.ajax({
+                        url: "{% url 'get_city' %}",
+                        method: "POST",
+                        data: {
+                            'state[]': stateLst
+                        },
+                        success: function (resp) {
+                            x = resp.data;
+                            if (resp.status == 'save') {
+                                for (i = 0; i < x.length; i++) {
+                                    output += `
                                 
                                             <input type="checkbox" class="city" id="city${x[i].city}" value="${x[i].city}">
                                             <label for="city${x[i].city}"> ${x[i].city}
                                             </label>
                                         `;
 
-                                    }
-                                    $("#cityHolder").html(output);
-
                                 }
+                                $("#cityHolder").html(output);
 
-                                if (resp.data == 0) {
-                                    console.log("No data found in Table")
-                                }
                             }
-                        });
+
+                            if (resp.data == 0) {
+                                console.log("No data found in Table")
+                            }
+                        }
                     });
+                });
+
+                $("#btnedit").click(function () {
+                    $('#filtertable').DataTable().destroy();
+
+                    output = "";
+                    let stateLst = []
+                    $('.state:checked').each(function () {
+                        stateLst.push($(this).val());
+                    })
+
+                    let cityLst = []
+                    $('.city:checked').each(function () {
+                        cityLst.push($(this).val());
+
+                    })
+
+                    $("#my_date_picker").datepicker();
+                    let fdt = $("#my_date_picker").val();
+
+                    $("#my_date_picker1").datepicker();
+                    let tdt = $("#my_date_picker1").val();
 
 
-                    $("#btnedit").click(function () {
-                        $('#filtertable').DataTable().destroy();
 
+                    $.ajax({
+                        url: "{% url 'get_data' %}",
+                        method: "POST",
+                        data: {
+                            'state[]': stateLst,
+                            'city[]': cityLst,
+                            'fdate': fdt,
+                            'tdate': tdt
 
-                        let stateLst = []
-                        $('.state:checked').each(function () {
-                            stateLst.push($(this).val());
-                        });
-
-                        let cityLst = []
-                        $('.city:checked').each(function () {
-                            cityLst.push($(this).val());
-                        });
-
-                        $("#my_date_picker").datepicker();
-                        let fdt = $("#my_date_picker").val()
-
-                        $("#my_date_picker1").datepicker();
-                        let tdt = $("#my_date_picker1").val()
-
-
-                        $.ajax({
-                            url: "{% url 'get_data' %}",
-                            method: "POST",
-                            data: {
-                                'state[]': stateLst,
-                                'city[]': cityLst,
-                                'fdate': fdt,
-                                'tdate': tdt
-                            },
-                            success: function (resp) {
-                                x = resp.data
-                                if (resp.status == 'save') {
-                                    $('#thead').html(`
+                        },
+                        success: function (resp) {
+                            x = resp.data
+                            if (resp.status == 'save') {
+                                $('#thead').html(`
                                         <tr>
-                                            <th style="min-width:100px; display:'';" id="fname"></th>
-                                            <th style="min-width:100px; display:'';" id="mobileh"></th>
-                                            <th style="min-width:100px; display:'';" id="stateh"></th>
-                                            <th style="min-width:100px; display:none;" id="cityh"></th>
-                                            <th style="min-width:100px; display:'';" id="ordern"></th>
-                                            <th style="min-width:100px; display:'';" id="orderd"></th>
-                                            <th style="min-width:100px; display:'';" id="orderp"></th>
-                                            <th style="min-width:100px; display:'';" id="productn"></th>
-                                            <th style="min-width:100px; display:'';" id="productp"></th>
+                                            <th style="display:'';" id="fname"></th>
+                                            <th style="display:'';" id="mobileh"></th>
+                                            <th style="display:'';" id="stateh"></th>
+                                            <th style="display:none;" id="cityh"></th>
+                                            <th style="display:'';" id="ordern"></th>
+                                            <th style="display:'';" id="orderd"></th>
+                                            <th style="display:'';" id="orderp"></th>
+                                            <th style="display:'';" id="productn"></th>
+                                            <th style="display:'';" id="productp"></th>
                                         </tr>
-                                        `);
-                                    for (i = 0; i < x.length; i++) {
-                                        output += ` 
+
+                                    `);
+
+                                for (i = 0; i < x.length; i++) {
+                                    output += ` 
                                         <tr>
-                                            <td id="fname">${x[i].fname}</td>
-                                            <td id="mobileh">${x[i].mobile}</td>
-                                            <td id="stateh">${x[i].state}</td>
-                                            <td id="cityh">${x[i].city}</td>
-                                            <td id="orderh">${x[i].order_number}</td>
-                                            <td id="orderd">${x[i].order_date}</td>
-                                            <td id="orderp">${x[i].order_price}</td>
-                                            <td id="productn">${x[i].product_name}</td>
-                                            <td id="productp">${x[i].product_price}</td>
-
-                                        </tr>    
-                                    
-                                    `;
-                                    }
-                                    $(".tbody").html(output);
-                                } else {
-                                    alert(" No data available in Table")
+                                            <td style="display:'';" id="fname">${x[i].fname}</td>
+                                            <td style="display:'';" id="mobileh">${x[i].mobile}</td>
+                                            <td style="display:'';" id="stateh">${x[i].state}</td>
+                                            <td style="display:none;" class="cityh">${x[i].city}</td>
+                                            <td style="display:'';" id="ordern">${x[i].order_number}</td>
+                                            <td style="display:'';" id="orderd">${x[i].order_date}</td>
+                                            <td style="display:'';" id="orderp">${x[i].order_price}</td>
+                                            <td style="display:'';" id="productn">${x[i].product_name}</td>
+                                            <td style="display:'';" id="productp">${x[i].product_price}</td>
+                                        </tr>
+                                        
+                                        `;
                                 }
-
-
-
-
-
+                                $('.tbody').html(output);
+                            } else {
+                                alert("No Data Found in Table")
+                            }
+                            if (cityLst.length != 0) {
+                                $('#cityh,.cityh').css('display', '');
+                            } else {
+                                $('#cityh,.cityh').css('display', 'none');
                             }
 
-                        })
-
+                        }
 
                     });
-
-
-
-
-
-
-
-
 
                 });
-            </script>
 
+
+            });
+        </script>
+
+
+        <script src="{% static 'myapp/js/main.js' %}"></script>
 
 </body>
 

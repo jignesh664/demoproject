@@ -87,6 +87,7 @@
 
 
             <select name="state_id" id="state_id">
+                <option value="">Select</option>
                 {% for state in allStates %}
                 <option value="{{state.id}}">{{ state.name }}</option>
                 {% endfor %}

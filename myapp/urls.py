@@ -36,6 +36,7 @@ urlpatterns = [
     path('forgot_pass/',views.forgot_pass,name='forgot_pass'),
     path('get_city',views.get_city,name='get_city'),
     path('get_data',views.get_data,name='get_data'),
+    
     ]
 
 

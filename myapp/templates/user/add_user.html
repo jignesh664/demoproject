@@ -110,8 +110,9 @@
                                         <div class="form-group">
                                             <label class="bmd-label-floating">User Type</label>
                                             <select name="user_type" id="user_type" required="required">
-                                                <option value="admin">Admin</option>
-                                                <option value="user">User</option>
+                                                <option value="">Select</option>
+                                                <option value="admin">admin</option>
+                                                <option value="user">user</option>
                                             </select>
 
                                         </div>
@@ -132,8 +133,9 @@
                                         <div class="form-group">
                                             <label class="bmd-label-floating sid">State_ID</label>
                                             <select name="state_id" id="state_id" required="required">
-                                                {% for state in finalstates %}
-                                                <option value="{{state.id}}">{{ state.name }}</option>
+                                                <option value="">Select</option>
+                                                {% for state in  allStates %}
+                                                <option value="{{state.id}}">{{ state.name}}</option>
                                                 {% endfor %}
                                             </select>
 
@@ -142,7 +144,8 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">City_ID</label>
-                                            <select name="city_id" id="city_id" required="required">
+                                            <select name="city_id" id="city_id">
+                                                <option value="">Select</option>
                                                 {% for city in allcitys %}
                                                 <option value="{{city.id}}">{{city.name }}</option>
                                                 {% endfor %}
@@ -153,7 +156,8 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Area_ID</label>
-                                            <select name="area_id" id="area_id" required="required">
+                                            <select name="area_id" id="area_id">
+                                                <option value="">Select</option>
                                                 {% for area in allareas %}
                                                 <option value="{{area.id}}">{{area.name }}</option>
                                                 {% endfor %}

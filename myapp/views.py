@@ -67,36 +67,37 @@ def get_city(request):
         #print(data)
         return JsonResponse({'status':'save','data':data},safe=False)
     else:
-        return JsonResponse({'status':0,})    
+        return JsonResponse({'status':0,})  
 
-
-
+@csrf_exempt
 def get_data(request):
     if request.method=="POST":
         allconditions=""
-
         state=request.POST.getlist('state[]')
-        finalstate=str(tuple(state)) if len(state) >1 else str(tuple(state)).replace(',','')
+       
+        finalstate=str(tuple(state)) if len(state) > 1 else str(tuple(state)).replace(',','')
         if (state):
             allconditions +=f" AND c.state in {finalstate}"
 
         city=request.POST.getlist('city[]')
         finalcity=str(tuple(city)) if len(city) > 1 else str(tuple(city)).replace(',','')
         if (city):
-            allconditions+=f" AND c.city in {finalcity}"
+            allconditions +=f"AND c.city in {finalcity}"
 
-         
+        tdate=request.POST['tdate']    
+        date=request.POST['fdate']
+        if (date):
+            allconditions+=f"AND DATE(c.date) BETWEEN DATE('{date}') AND DATE ('{tdate}')"
 
-        querys=""
+
+        querys=f"select c.fname, c.mobile, c.state, c.city, o.order_number, o.order_date, o.order_price, p.product_name, p.product_price from myapp_customer  as c LEFT JOIN myapp_order as o ON c.id=o.id LEFT JOIN myapp_product as p ON p.id=c.id  WHERE 1 = 1 {allconditions} order by state,city ASC;"
         data=runsql(querys)
-        return JsonResponse({'status':'save','data':data}, safe=False)
-
+        return JsonResponse({'status':'save','data':data},safe=False)
     else:
-        return JsonResponse()    
+        return JsonResponse({'status':0})    
 
 
-   
-   
+
 
 @check_session 
 @cache_control(no_cache=True ,must_revalidate=True ,no_store=True)            

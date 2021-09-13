@@ -81,6 +81,7 @@
             {% csrf_token %}
 
             <select name="city_id" id="city_id">
+                <option value="">Select</option>
                 {% for city in allcitys %}
                 <option value="{{city.id}}">{{ city.name }}</option>
                 {% endfor %}

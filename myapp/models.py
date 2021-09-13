@@ -33,7 +33,7 @@ class Area(models.Model):
         return self.name+" "+self.desc
      
 class User(models.Model):
-    user_type=models.CharField(max_length=100,default="user")
+    user_type=models.CharField(max_length=100)
     fname=models.CharField(max_length=100)
     lname=models.CharField(max_length=100)    
     email=models.EmailField()    
