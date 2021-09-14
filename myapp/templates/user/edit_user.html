@@ -21,8 +21,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- CSS Files -->
     <link href="{% static 'myapp/css/material-dashboard.css' %}" rel="stylesheet" />
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="{% static 'myapp/demo/demo.css' %}" rel="stylesheet" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -95,17 +93,18 @@
                             <form method="POST" action="{% url 'edit_user' %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="user_id" value="{{user.id }}">
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">First Name</label>
-                                            <input type="text" name="fname" value="{{user.fname}}" class="form-control">
+                                            <input type="text" name="fname" class="form-control" value="{{user.fname}}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Last Name</label>
-                                            <input type="text" name="lname" value="{{user.lname}}" class="form-control">
+                                            <input type="text" name="lname" class="form-control" value="{{user.lname}}">
                                         </div>
                                     </div>
                                 </div>
@@ -117,20 +116,29 @@
                                                 class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Phone</label>
                                             <input type="text" name="phone" value="{{user.phone}}" class="form-control">
                                         </div>
                                     </div>
+
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="bmd-label-floating">User Type</label>
-                                            <select name="user_type" id="user_type">
-                                                <option value="{{user.user_type}}">admin</option>
-                                                <option value="{{user.user_type}}">user</option>
 
-                                            </select>
+                                            <label class="bmd-label-floating">User Type</label><br>
+                                            {% if user.user_type == "user" %}
+                                            <input type="radio" id="" name="user_type" value="user" checked="checked">
+                                            User
+                                            <input type="radio" id="" name="user_type" value="admin">
+                                            Admin
+
+                                            {% elif user.user_type == "admin" %}
+                                            <input type="radio" id="" name="user_type" value="user">
+                                            User
+                                            <input type="radio" id="" name="user_type" value="admin" checked="checked">
+                                            Admin
+                                            {% endif %}
 
                                         </div>
                                     </div>
@@ -140,140 +148,129 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Address</label>
-                                            <input type="text" name="address" value="{{user.address}}"
-                                                class="form-control">
+                                            <input type="text" name="address" class="form-control"
+                                                value="{{user.address}}">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <select name="state_id" id="state_id">
-                                            {% for state in allStates %}
-                                            <option value="{{state.id}}">{{state.name}}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12"></div>
-                                    <select name="city_id" id="city_id">
-                                        {% for city in allcitys %}
-                                        <option value="{{city.id}}">{{city.name}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <select name="area_id" id="area_id">
-                                            {% for area in allareas %}
-                                            <option value="{{area.id}}">{{area.name}}
-                                            </option>
-                                            <!-- <option value="{{area.id}}">{{area.name}} -> {{ area.city_id.name }} ->
-                                            {{ area.city_id.state_id.name }}
-                                        </option> -->
-                                            {% endfor %}
-                                        </select>
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">State</label>
+                                            <select name="state_id" id="state_id" class="form-control">
+                                                {% for state in allStates %}
+                                                <option value="{{state.id}}">{{state.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">City</label>
+                                            <select name="city_id" id="city_id" class="form-control">
+                                                {% for city in allcitys %}
+                                                <option value="{{city.id}}">{{city.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Area</label>
+                                            <select name="area_id" id="area_id" class="form-control">
+                                                {% for area in allareas %}
+                                                <option value="{{area.id}}">{{area.name}}
+                                                </option>
+                                                <!-- <option value="{{area.id}}">{{area.name}} -> {{ area.city_id.name }} ->
+                                                {{ area.city_id.state_id.name }}
+                                                </option> -->
+                                                {% endfor %}
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+                                <div class="clearfix"></div>
+                            </form>
                         </div>
-                        <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
-                        <div class="clearfix"></div>
-                        </form>
                     </div>
                 </div>
             </div>
+
         </div>
-        <div class="col-md-4">
-            <div class="card card-profile">
-                <div class="card-avatar">
-                    <a href="javascript:;">
-                        <img class="img" src="{% static 'myapp/img/faces/marc.jpg' %}" />
-                    </a>
-                </div>
-                <div class="card-body">
-                    <h6 class="card-category text-gray">CEO / Co-Founder</h6>
-                    <h4 class="card-title">Alec Thompson</h4>
-                    <p class="card-description">
-                        Don't be scared of the truth because we need to restart the human foundation in truth
-                        And I love you
-                        like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
-                    </p>
-                    <a href="javascript:;" class="btn btn-primary btn-round">Follow</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
 
 
 
-    <script>
-        // for Auto Get city from select State 
-        $(document).ready(function () {
-            $("#state_id").change(function () {
-                output = "";
-                let id = $(this).val();
-                $.ajax({
-                    url: "{% url 'getcity' %}",
-                    method: "POST",
-                    data: {
-                        'state_id': id
-                    },
-                    success: function (resp) {
-                        x = resp.finalCitys;
-                        if (resp.status == 'save') {
-                            for (i = 0; i < x.length; i++) {
-                                output += `
+
+        <script>
+            // for Auto Get city from select State 
+            $(document).ready(function () {
+                $("#state_id").change(function () {
+                    output = "";
+                    let id = $(this).val();
+                    $.ajax({
+                        url: "{% url 'getcity' %}",
+                        method: "POST",
+                        data: {
+                            'state_id': id
+                        },
+                        success: function (resp) {
+                            x = resp.finalCitys;
+                            if (resp.status == 'save') {
+                                for (i = 0; i < x.length; i++) {
+                                    output += `
                                     <option value="${x[i].id}">${x[i].name}</option>
                                 `;
+                                }
+                                $("#city_id").html(output);
                             }
-                            $("#city_id").html(output);
+                            if (resp.status == 0) {
+                                console.log("enable to get citys ")
+                            }
                         }
-                        if (resp.status == 0) {
-                            console.log("enable to get citys ")
-                        }
-                    }
+                    });
                 });
-            });
 
-            // for Get Area From select City
-            $("#city_id").change(function () {
-                output = "";
-                let id = $(this).val()
+                // for Get Area From select City
+                $("#city_id").change(function () {
+                    output = "";
+                    let id = $(this).val()
 
-                //console.log(id, "Area Click");
+                    //console.log(id, "Area Click");
 
-                $.ajax({
-                    url: "{% url 'getarea' %}",
-                    method: "POST",
-                    data: {
-                        'city_id': id
-                    },
-                    success: function (resp) {
-                        y = resp.finalarea;
-                        console.log(y)
-                        if (resp.status == 'save') {
-                            for (i = 0; i < y.length; i++) {
-                                output += `
+                    $.ajax({
+                        url: "{% url 'getarea' %}",
+                        method: "POST",
+                        data: {
+                            'city_id': id
+                        },
+                        success: function (resp) {
+                            y = resp.finalarea;
+                            console.log(y)
+                            if (resp.status == 'save') {
+                                for (i = 0; i < y.length; i++) {
+                                    output += `
                                     <option value="${y[i].id}">${y[i].name}</option>
                                     `;
+                                }
+                                $("#area_id").html(output);
                             }
-                            $("#area_id").html(output);
-                        }
-                        if (resp.status == 0) {
-                            console.log("enable to get citys ")
+                            if (resp.status == 0) {
+                                console.log("enable to get citys ")
+                            }
+
                         }
 
-                    }
+                    });
+
 
                 });
-
-
             });
-        });
-    </script>
+        </script>
 
 </body>
 

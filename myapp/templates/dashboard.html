@@ -20,16 +20,14 @@
     <!-- CSS Files -->
 
     <link href="{% static 'myapp/css/material-dashboard.css' %}" rel="stylesheet" />
-
-    <link href="{% static 'myapp/demo/demo.css' %}" rel="stylesheet" />
     <link href="{% static 'myapp/css/style.css' %}" />
 
 
-    <!--calander js-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
 
-
+    <!--data table css-->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.css">
+    <!--calander css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
 
 
 </head>
@@ -99,7 +97,6 @@
 
             </div>
         </div>
-
 
         <div class="main-panel">
 
@@ -207,7 +204,7 @@
 
                     {% for i in records %}
                     <input type="checkbox" id="state" class="state" value="{{ i }}" name="state[]">
-                    <label for="scales{{ i }}">{{i}}</label>
+                    <label for="scales{{ i }}" style="color: #000;">{{i}}</label>
                     {% endfor %}
 
 
@@ -229,7 +226,7 @@
             </div>
 
 
-            <table id="table_id" class="display">
+            <table id="table_id" class="display" border="1">
 
                 <thead id="theads">
                     <tr>
@@ -242,7 +239,7 @@
                         <th style="display:'';" id="orderd">Order date</th>
                         <th style="display:'';" id="orderp">Order Price</th>
                         <th style="display:'';" id="productn">Product Name</th>
-                        <th style="display:'';" id="productp ">Product Price</th>
+                        <th style="display:'';" id="productp">Product Price</th>
 
                     </tr>
                 </thead>
@@ -260,9 +257,9 @@
 
         <!--calander js-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <!--datatable js-->
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.js">
         </script>
-
 
 
 
@@ -273,11 +270,12 @@
                 $('#table_id').DataTable();
 
 
-                $("#my_date_picker").datepicker({
+
+                $('#my_date_picker').datepicker({
                     dateFormat: 'yy-mm-dd'
                 });
 
-                $("#my_date_picker1").datepicker({
+                $('#my_date_picker1').datepicker({
                     dateFormat: 'yy-mm-dd'
                 });
 
@@ -309,19 +307,19 @@
                                         `;
 
                                 }
-                                $("#cityHolder").html(output);
+                                $('#cityHolder').html(output);
 
                             }
 
                             if (resp.data == 0) {
-                                console.log("No data found in Table")
+                                alert("No data found in Table")
                             }
                         }
                     });
                 });
 
-                $("#btnedit").click(function () {
-                    $('#filtertable').DataTable().destroy();
+                $('#btnedit').click(function () {
+                    $('#table_id').DataTable().destroy();
 
                     output = "";
                     let stateLst = []
@@ -335,17 +333,16 @@
 
                     })
 
-                    $("#my_date_picker").datepicker();
+                    $('#my_date_picker').datepicker();
                     let fdt = $("#my_date_picker").val();
 
-                    $("#my_date_picker1").datepicker();
+                    $('#my_date_picker1').datepicker();
                     let tdt = $("#my_date_picker1").val();
-
 
 
                     $.ajax({
                         url: "{% url 'get_data' %}",
-                        method: "POST",
+                        method: 'POST',
                         data: {
                             'state[]': stateLst,
                             'city[]': cityLst,
@@ -356,7 +353,7 @@
                         success: function (resp) {
                             x = resp.data
                             if (resp.status == 'save') {
-                                $('#thead').html(`
+                                $('#table_id theads').html(`
                                         <tr>
                                             <th style="display:'';" id="fname"></th>
                                             <th style="display:'';" id="mobileh"></th>

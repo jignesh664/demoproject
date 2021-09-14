@@ -111,7 +111,7 @@ def state(request):
     params = {"allStates": allStates}
     return render(request,'state/state.html', params)   
 
-   
+  
 
 @csrf_exempt
 @check_session 
@@ -483,7 +483,6 @@ def forgot_pass(request):
     return render(request,'forgot_pass.html')
 
 
-   
 
              
        
