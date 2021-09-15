@@ -90,7 +90,7 @@ def get_data(request):
             allconditions+=f"AND DATE(c.date) BETWEEN DATE('{date}') AND DATE ('{tdate}')"
 
 
-        querys=f"select c.fname, c.mobile, c.state, c.city, o.order_number, o.order_date, o.order_price, p.product_name, p.product_price from myapp_customer  as c LEFT JOIN myapp_order as o ON c.id=o.id LEFT JOIN myapp_product as p ON p.id=c.id  WHERE 1 = 1 {allconditions} order by state,city ASC;"
+        querys=f"select c.fname, c.mobile, c.state, c.city, o.order_number, o.order_date, o.order_price, p.product_name, p.product_price from myapp_customer  as c  LEFT JOIN myapp_order as o ON c.id=o.id LEFT JOIN myapp_product as p ON p.id=c.id  WHERE 1 = 1 {allconditions} ORDER BY c.state ASC;"
         data=runsql(querys)
         return JsonResponse({'status':'save','data':data},safe=False)
     else:
@@ -354,11 +354,17 @@ def add_user(request):
         except User.DoesNotExist as ex:    
             u=User()
             u.fname = request.POST['fname']
+            print(u.fname)
             u.lname = request.POST['lname']
+            print(u.lname)
             u.email= request.POST['email']
+            print(u.email)
             u.phone = request.POST['phone']
+            print(u.phone)
             u.address = request.POST['address']
+            print(u.address)
             u.user_type = request.POST['user_type']
+            print(u.user_type)
             u.state_id = State.objects.get(id = request.POST['state_id'])
             u.city_id = City.objects.get(id = request.POST['city_id'])
             u.area_id = Area.objects.get(id = request.POST['area_id'])

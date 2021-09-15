@@ -80,6 +80,7 @@
         <form method="post" action="{% url 'add_area' %}">
             {% csrf_token %}
 
+            <label for="city">City</label>
             <select name="city_id" id="city_id">
                 <option value="">Select</option>
                 {% for city in allcitys %}
