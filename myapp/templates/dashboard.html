@@ -277,12 +277,6 @@
                 </thead>
                 <tbody class="tbody">
 
-                <tfoot>
-                    <tr>
-                        <th colspan="5" style="width: 100px;display:'';color: black;">Total:</th>
-                        <th></th>
-                    </tr>
-                </tfoot>
 
                 </tbody>
             </table>
@@ -410,31 +404,74 @@
                                             <th style="width: 100px;display:'';" id="orderp"></th>
                                             <th style="width: 100px;display:'';" id="productn"></th>
                                             <th style="width: 100px;display:'';" id="productp"></th>
-                                            <th style="width: 100px;display:'';" id="total">Total</th>
+                                            
                                         </tr>                                               
                                                                                                                  
                                     `);
 
+                                // for column sum of order price and product price
+                                var order_price = 0
+                                var product_price = 0
+                                var previous_state = ''
+                                var next_state = ''
+
                                 for (i = 0; i < x.length; i++) {
+
+                                    order_price += parseInt(resp.data[i].order_price)
+                                    product_price += parseInt(resp.data[i].product_price)
+                                    console.log(order_price)
+                                    console.log(product_price)
+
+
+                                    if (previous_state = '')
+                                        output += ` 
+                                            <tr>
+                                                <td style="width: 100px;display:'';" id="fname">${x[i].fname}</td>                                          
+                                                <td style="width: 100px;display:'';" id="mobileh">${x[i].mobile}</td>
+                                                <td style="width: 100px;display:'';" id="stateh">${x[i].state}</td>                                                                                    
+                                                <td style="width: 100px;display:none;" class="cityh">${x[i].city}</td>
+                                                <td style="width: 100px;display:'';" id="ordern">${x[i].order_number}</td>
+                                                <td style="width: 100px;display:'';" id="orderd">${x[i].order_date}</td>
+                                                <td style="width: 100px;display:'';" id="orderp">${x[i].order_price}</td>
+                                                <td style="width: 100px;display:'';" id="productn">${x[i].product_name}</td>
+                                                <td style="width: 100px;display:'';" id="productp">${x[i].product_price}</td>
+
+                                            </tr>
+                                                                                                        
+                                            `;
+
+
+                                    if (previous_state == next_state)
+
+                                        output += ` 
+                                            <tr>
+                                                <td style="width: 100px;display:'';" id="fname">${x[i].fname}</td>                                          
+                                                <td style="width: 100px;display:'';" id="mobileh">${x[i].mobile}</td>
+                                                <td style="width: 100px;display:'';" id="stateh">${x[i].state}</td>                                            
+                                                <td style="width: 100px;display:none;" class="cityh">${x[i].city}</td>
+                                                <td style="width: 100px;display:'';" id="ordern">${x[i].order_number}</td>
+                                                <td style="width: 100px;display:'';" id="orderd">${x[i].order_date}</td>
+                                                <td style="width: 100px;display:'';" id="orderp">${x[i].order_price}</td>
+                                                <td style="width: 100px;display:'';" id="productn">${x[i].product_name}</td>
+                                                <td style="width: 100px;display:'';" id="productp">${x[i].product_price}</td>
+                
+                                            </tr>
+                                                                                                        
+                                            `;
+
+
                                     output += ` 
                                         <tr>
-                                            <td style="width: 100px;display:'';" id="fname">${x[i].fname}</td>                                          
-                                            <td style="width: 100px;display:'';" id="mobileh">${x[i].mobile}</td>
-                                            <td style="width: 100px;display:'';" id="stateh">${x[i].state}</td>                                            
-                                            <td style="width: 100px;display:none;" class="cityh">${x[i].city}</td>
-                                            <td style="width: 100px;display:'';" id="ordern">${x[i].order_number}</td>
-                                            <td style="width: 100px;display:'';" id="orderd">${x[i].order_date}</td>
-                                            <td style="width: 100px;display:'';" id="orderp">${x[i].order_price}</td>
-                                            <td style="width: 100px;display:'';" id="productn">${x[i].product_name}</td>
-                                            <td style="width: 100px;display:'';" id="productp">${x[i].product_price}</td>
+                                            <td>Total-${order_price}</td> 
+                                            <td style="width: 100px;display:''; id=productp"></td>
+                                                                                                                                                                                           
+                                        </tr>                                         
 
-                                        </tr>
-                                                                                                    
                                         `;
 
                                 }
 
-                                
+
 
                                 $('.tbody').html(output);
 
@@ -443,6 +480,7 @@
                             } else {
                                 alert("No Data Found in Table")
                             }
+
                             if (cityLst.length != 0) {
                                 $('#cityh,.cityh').css('display', '');
                             } else {
