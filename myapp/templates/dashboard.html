@@ -358,6 +358,7 @@
                     });
                 });
 
+
                 $('#btnedit').click(function () {
                     $('#table_id').DataTable().destroy();
 
@@ -412,18 +413,21 @@
                                 // for column sum of order price and product price
                                 var order_price = 0
                                 var product_price = 0
-                                var previous_state = ''
+                                var state = ''
                                 var next_state = ''
+                                var new_state = ''
 
                                 for (i = 0; i < x.length; i++) {
 
-                                    order_price += parseInt(resp.data[i].order_price)
-                                    product_price += parseInt(resp.data[i].product_price)
                                     console.log(order_price)
                                     console.log(product_price)
+                                    order_price += parseInt(resp.data[i].order_price)
+                                    product_price += parseInt(resp.data[i].product_price)
 
 
-                                    if (previous_state = '')
+                                    if (state = '') {
+                                        order_price += parseInt(resp.data[i].order_price)
+
                                         output += ` 
                                             <tr>
                                                 <td style="width: 100px;display:'';" id="fname">${x[i].fname}</td>                                          
@@ -436,14 +440,19 @@
                                                 <td style="width: 100px;display:'';" id="productn">${x[i].product_name}</td>
                                                 <td style="width: 100px;display:'';" id="productp">${x[i].product_price}</td>
 
-                                            </tr>
-                                                                                                        
+                                            </tr>                                                                   
+                                            
                                             `;
 
 
-                                    if (previous_state == next_state)
+                                    }
+
+                                    if (state == next_state) {
+
+
 
                                         output += ` 
+                                    
                                             <tr>
                                                 <td style="width: 100px;display:'';" id="fname">${x[i].fname}</td>                                          
                                                 <td style="width: 100px;display:'';" id="mobileh">${x[i].mobile}</td>
@@ -459,18 +468,19 @@
                                                                                                         
                                             `;
 
+                                    } else(state != next_state)
+                                    order_price += parseInt(resp.data[i].order_prise)
 
-                                    output += ` 
-                                        <tr>
-                                            <td>Total-${order_price}</td> 
-                                            <td style="width: 100px;display:''; id=productp"></td>
-                                                                                                                                                                                           
-                                        </tr>                                         
+                                    output += `
+                                            <tr>
+                                                
+                                                <td>Total ${x[i].order_price}</td>
 
+                                            </tr>
+                                        
                                         `;
 
                                 }
-
 
 
                                 $('.tbody').html(output);
