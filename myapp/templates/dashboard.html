@@ -321,7 +321,6 @@
 
 
                 $('.state').change(function () {
-                    console.log("Here...");
                     output = "";
 
                     let stateLst = []
@@ -414,21 +413,19 @@
                                 var order_price = 0
                                 var product_price = 0
                                 var state = ''
-                                var next_state = ''
-                                var new_state = ''
 
                                 for (i = 0; i < x.length; i++) {
 
+                                    order_price += parseInt(x[i].order_price)
+                                    product_price += parseInt(x[i].product_price)
                                     console.log(order_price)
-                                    console.log(product_price)
-                                    order_price += parseInt(resp.data[i].order_price)
-                                    product_price += parseInt(resp.data[i].product_price)
 
 
-                                    if (state = '') {
-                                        order_price += parseInt(resp.data[i].order_price)
+
+                                    if (state == '') {
 
                                         output += ` 
+
                                             <tr>
                                                 <td style="width: 100px;display:'';" id="fname">${x[i].fname}</td>                                          
                                                 <td style="width: 100px;display:'';" id="mobileh">${x[i].mobile}</td>
@@ -443,13 +440,9 @@
                                             </tr>                                                                   
                                             
                                             `;
-
-
                                     }
 
-                                    if (state == next_state) {
-
-
+                                    if (state == x[i].state) {
 
                                         output += ` 
                                     
@@ -468,18 +461,24 @@
                                                                                                         
                                             `;
 
-                                    } else(state != next_state)
-                                    order_price += parseInt(resp.data[i].order_prise)
-
+                                    } else(state !== x[i].state)
                                     output += `
-                                            <tr>
-                                                
-                                                <td>Total ${x[i].order_price}</td>
+                                        <tr>
+                                            <td style="width:100px;display:'';"></td>    
+                                            <td style="width:100px;display:'';"></td>    
+                                            <td style="width:100px;display:'';"></td>    
+                                            <td style="width:100px;display:'';"></td>    
+                                            <td style="width:100px;display:'';"></td>    
+                                            <td style="width:100px;display:'';"></td>    
+                                            <td style="width:100px;display:'';"></td>    
+                                            <td style="width:100px;display:'';"></td>                                                                                     
+                                            <td style="width:100px;display:'';">${order_price}</td>
+                                        </tr>
+                                    
+                                    `;
 
-                                            </tr>
-                                        
-                                        `;
 
+                                    state = x[i].state
                                 }
 
 
@@ -504,7 +503,6 @@
                 });
             });
         </script>
-
 
         <script src="{% static 'myapp/js/main.js' %}"></script>
 
