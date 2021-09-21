@@ -35,7 +35,7 @@
 <!--datatable CSS -->
 <style>
     .tables {
-        background-color: rgb(156, 3, 156);
+        background-color: rgb(245, 201, 4);
     }
 
     .tables>thead>tr>th {
@@ -111,13 +111,13 @@
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="/">
                             <i class="material-icons">notifications</i>
                             <p>Notifications</p>
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="/">
                             <i class="material-icons">language</i>
                             <p>Permissions</p>
                         </a>
@@ -361,7 +361,7 @@
                 $('#btnedit').click(function () {
                     $('#table_id').DataTable().destroy();
 
-                    output = "";
+
                     let stateLst = []
                     $('.state:checked').each(function () {
                         stateLst.push($(this).val());
@@ -394,38 +394,32 @@
                             x = resp.data
                             if (resp.status == 'save') {
                                 $('#table_id theads').html(`
-                                        <tr>
-                                            <th style="width: 100px;display:'';" id="fname"></th>
-                                            <th style="width: 100px;display:'';" id="mobileh"></th>
-                                            <th style="width: 100px;display:'';" id="stateh"></th>
-                                            <th style="width: 100px;display:none;" id="cityh"></th>
-                                            <th style="width: 100px;display:'';" id="ordern"></th>
-                                            <th style="width: 100px;display:'';" id="orderd"></th>
-                                            <th style="width: 100px;display:'';" id="orderp"></th>
-                                            <th style="width: 100px;display:'';" id="productn"></th>
-                                            <th style="width: 100px;display:'';" id="productp"></th>
-                                            
-                                        </tr>                                               
-                                                                                                                 
-                                    `);
+                                    <tr>
+                                        <th style="width: 100px;display:'';" id="fname"></th>
+                                        <th style="width: 100px;display:'';" id="mobileh"></th>
+                                        <th style="width: 100px;display:'';" id="stateh"></th>
+                                        <th style="width: 100px;display:none;" id="cityh"></th>
+                                        <th style="width: 100px;display:'';" id="ordern"></th>
+                                        <th style="width: 100px;display:'';" id="orderd"></th>
+                                        <th style="width: 100px;display:'';" id="orderp"></th>
+                                        <th style="width: 100px;display:'';" id="productn"></th>
+                                        <th style="width: 100px;display:'';" id="productp"></th>
+                                    </tr>                                                                                   
+                                `);
 
-                                // for column sum of order price and product price
-                                var order_price = 0
-                                var product_price = 0
-                                var state = ''
+                                // for column sum of order price and product price let used for parrticlar scope like local varialbe and var is global variable asl
+                                var order_price = 0;
+                                var product_price = 0;
+                                var state = '';
+                                var output = ``;
 
                                 for (i = 0; i < x.length; i++) {
-
-                                    order_price += parseInt(x[i].order_price)
-                                    product_price += parseInt(x[i].product_price)
+                                    order_price += parseInt(x[i].order_price);
+                                    product_price += parseInt(x[i].product_price);
                                     console.log(order_price)
 
-
-
                                     if (state == '') {
-
                                         output += ` 
-
                                             <tr>
                                                 <td style="width: 100px;display:'';" id="fname">${x[i].fname}</td>                                          
                                                 <td style="width: 100px;display:'';" id="mobileh">${x[i].mobile}</td>
@@ -436,17 +430,11 @@
                                                 <td style="width: 100px;display:'';" id="orderp">${x[i].order_price}</td>
                                                 <td style="width: 100px;display:'';" id="productn">${x[i].product_name}</td>
                                                 <td style="width: 100px;display:'';" id="productp">${x[i].product_price}</td>
-
-                                            </tr>                                                                   
-                                            
+                                            </tr>    
                                             `;
-                                    }
 
-                                    if (state == x[i].state) {
-
-                                        output += ` 
-                                    
-                                            <tr>
+                                    } else if (state == x[i].state) {
+                                        output += `<tr>
                                                 <td style="width: 100px;display:'';" id="fname">${x[i].fname}</td>                                          
                                                 <td style="width: 100px;display:'';" id="mobileh">${x[i].mobile}</td>
                                                 <td style="width: 100px;display:'';" id="stateh">${x[i].state}</td>                                            
@@ -456,44 +444,40 @@
                                                 <td style="width: 100px;display:'';" id="orderp">${x[i].order_price}</td>
                                                 <td style="width: 100px;display:'';" id="productn">${x[i].product_name}</td>
                                                 <td style="width: 100px;display:'';" id="productp">${x[i].product_price}</td>
-                
-                                            </tr>
-                                                                                                        
-                                            `;
-
-                                    } else(state !== x[i].state)
-                                    output += `
-                                        <tr>
-                                            <td style="width:100px;display:'';"></td>    
-                                            <td style="width:100px;display:'';"></td>    
-                                            <td style="width:100px;display:'';"></td>    
-                                            <td style="width:100px;display:'';"></td>    
-                                            <td style="width:100px;display:'';"></td>    
-                                            <td style="width:100px;display:'';"></td>    
-                                            <td style="width:100px;display:'';"></td>    
-                                            <td style="width:100px;display:'';"></td>                                                                                     
-                                            <td style="width:100px;display:'';">${order_price}</td>
-                                        </tr>
-                                    
-                                    `;
-
+                                            </tr>`;
+                                    } else if (state != x[i].state) {
+                                        output += `<tr>
+                                                <td style="width:100px;display:'';"></td>    
+                                                <td style="width:100px;display:'';"></td>    
+                                                <td style="width:100px;display:'';"></td>    
+                                                <td style="width:100px;display:none;" class="cityh"></td>    
+                                                <td style="width:100px;display:'';"></td>    
+                                                <td style="width:100px;display:'';"></td>    
+                                                <td style="width:100px;display:'';"></td>    
+                                                <td style="width:100px;display:'';"></td>                                                                                                                                                                                                                  
+                                                <td style="width:100px;display:'';"> ${state} Total-${order_price}</td>
+                                            </tr>`;
+                                    }
 
                                     state = x[i].state
                                 }
 
 
                                 $('.tbody').html(output);
+                                $('#table_id').DataTable({
+                                    "bSortable": false,
+                                    "ordering": false
 
-                                $('#table_id').DataTable();
+                                });
+
+                                if (cityLst.length != 0) {
+                                    $('#cityh,.cityh').css('display', '');
+                                } else {
+                                    $('#cityh,.cityh').css('display', 'none');
+                                }
 
                             } else {
                                 alert("No Data Found in Table")
-                            }
-
-                            if (cityLst.length != 0) {
-                                $('#cityh,.cityh').css('display', '');
-                            } else {
-                                $('#cityh,.cityh').css('display', 'none');
                             }
 
                         }

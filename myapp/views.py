@@ -303,7 +303,7 @@ def edit_area(request,area_id=None):
         a.name=request.POST['name']
         a.desc=request.POST['desc']
         a.save()
-        messages.add_message(request, messages.SUCCESS,"Area Delete successfully.")
+        messages.add_message(request, messages.SUCCESS,"Area Edit successfully.")
         return redirect('/area')
     else:
         a=Area.objects.get(id=area_id,is_deleted = 1)
@@ -464,7 +464,7 @@ def admin_login(request):
                 #request.session['user]=serialisers.serialze('json,user)
                 user.is_login=True
                 user.save()
-                messages.add_message(request, messages.SUCCESS,"Hi u have Login Successfully")
+                messages.add_message(request, messages.SUCCESS,"Hi U have Login Successfully")
 
                 return redirect('dashboard')
         except Exception as e:
