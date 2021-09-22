@@ -256,7 +256,7 @@
             </div>
 
 
-            <table id="table_id" border="1" class="tables">
+            <table id="table_id" class="tables">
 
                 <thead id="theads">
                     <tr>
@@ -346,6 +346,7 @@
                                         `;
 
                                 }
+
                                 $('#cityHolder').html(output);
 
                             }
@@ -408,15 +409,25 @@
                                 `);
 
                                 // for column sum of order price and product price let used for parrticlar scope like local varialbe and var is global variable asl
+                                //for mail total sum
                                 var order_price = 0;
                                 var product_price = 0;
                                 var state = '';
                                 var output = ``;
 
+                                var state_order = 0;
+                                var state_product = 0;
+
+
                                 for (i = 0; i < x.length; i++) {
                                     order_price += parseInt(x[i].order_price);
                                     product_price += parseInt(x[i].product_price);
-                                    console.log(order_price)
+
+                                    state_order += parseInt(x[i].order_price);
+                                    state_product += parseInt(x[i].product_price);
+
+                                    //console.log(state, state == '',
+                                    //state == x[i].state, state != x[i].state);
 
                                     if (state == '') {
                                         output += ` 
@@ -430,10 +441,9 @@
                                                 <td style="width: 100px;display:'';" id="orderp">${x[i].order_price}</td>
                                                 <td style="width: 100px;display:'';" id="productn">${x[i].product_name}</td>
                                                 <td style="width: 100px;display:'';" id="productp">${x[i].product_price}</td>
-                                            </tr>    
-                                            `;
-
-                                    } else if (state == x[i].state) {
+                                            </tr> `;
+                                    }
+                                    if (state == x[i].state) {
                                         output += `<tr>
                                                 <td style="width: 100px;display:'';" id="fname">${x[i].fname}</td>                                          
                                                 <td style="width: 100px;display:'';" id="mobileh">${x[i].mobile}</td>
@@ -445,6 +455,7 @@
                                                 <td style="width: 100px;display:'';" id="productn">${x[i].product_name}</td>
                                                 <td style="width: 100px;display:'';" id="productp">${x[i].product_price}</td>
                                             </tr>`;
+
                                     } else if (state != x[i].state) {
                                         output += `<tr>
                                                 <td style="width:100px;display:'';"></td>    
@@ -453,15 +464,13 @@
                                                 <td style="width:100px;display:none;" class="cityh"></td>    
                                                 <td style="width:100px;display:'';"></td>    
                                                 <td style="width:100px;display:'';"></td>    
-                                                <td style="width:100px;display:'';"></td>    
-                                                <td style="width:100px;display:'';"></td>                                                                                                                                                                                                                  
-                                                <td style="width:100px;display:'';"> ${state} Total-${order_price}</td>
+                                                <td style="width:100px;display:'';">Total ${order_price}</td>    
+                                                <td style="width:100px;display:'';"></td>                                                                                                                                                                                                                                                 
+                                                <td style="width:100px;display:'';">Total ${product_price}</td>
                                             </tr>`;
                                     }
 
-                                    state = x[i].state
                                 }
-
 
                                 $('.tbody').html(output);
                                 $('#table_id').DataTable({
@@ -470,6 +479,7 @@
 
                                 });
 
+                                // Get city column when click state 
                                 if (cityLst.length != 0) {
                                     $('#cityh,.cityh').css('display', '');
                                 } else {
