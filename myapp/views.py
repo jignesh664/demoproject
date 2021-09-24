@@ -409,7 +409,6 @@ def edit_user(request,user_id=None):
         return render(request,'user/edit_user.html',params)  
 
 
-
 @check_session
 @cache_control(no_cache=True ,must_revalidate=True ,no_store=True)
 def delete_user(request,ur_id):
@@ -420,8 +419,6 @@ def delete_user(request,ur_id):
     messages.add_message(request, messages.WARNING,"User Delete successfully.")
     return redirect('/user')
     #d.delete()
-
-
 
 @csrf_exempt 
 def getcity(request):

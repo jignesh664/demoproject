@@ -34,18 +34,18 @@
 
 <!--datatable CSS -->
 <style>
-    .tables {
+    .row-border {
         background-color: rgb(245, 201, 4);
     }
 
-    .tables>thead>tr>th {
+    .row-border>thead>tr>th {
         border-bottom-width: 0;
         color: #181616;
         text-align: center;
 
     }
 
-    .tables>tbody td {
+    .row-border>tbody td {
         padding: 10px 15px 10px 18px;
         color: #0b0c0b;
         font-size: 15px;
@@ -57,7 +57,7 @@
 
     }
 
-    .tables>tbody>tr:nth-child(even) {
+    .row-border>tbody>tr:nth-child(even) {
         background: #0999a3;
     }
 </style>
@@ -256,7 +256,7 @@
             </div>
 
 
-            <table id="table_id" class="tables">
+            <table id="table_id" class="row-border">
 
                 <thead id="theads">
                     <tr>
@@ -346,7 +346,6 @@
                                         `;
 
                                 }
-
                                 $('#cityHolder').html(output);
 
                             }
@@ -415,21 +414,27 @@
                                 var state = '';
                                 var output = ``;
 
-                                var state_order = 0;
-                                var state_product = 0;
-
+                                // for state wise total sum below var and also 2 var  above used
+                                var state_wise_order = 0;
+                                var state_wise_pprice = 0;
 
                                 for (i = 0; i < x.length; i++) {
-                                    order_price += parseInt(x[i].order_price);
-                                    product_price += parseInt(x[i].product_price);
 
-                                    state_order += parseInt(x[i].order_price);
-                                    state_product += parseInt(x[i].product_price);
+                                    order_price += x[i].order_price == null ? 0 : parseInt(
+                                        x[i].order_price);
 
-                                    //console.log(state, state == '',
-                                    //state == x[i].state, state != x[i].state);
+                                    product_price += x[i].product_price ==
+                                        undefined ? 0 : parseInt(x[i].product_price);
+
+
+                                    console.log(order_price, state_wise_order,
+                                        state_wise_pprice);
+
+                                    console.log(state, state == '',
+                                        state == x[i].state, state != x[i].state);
 
                                     if (state == '') {
+
                                         output += ` 
                                             <tr>
                                                 <td style="width: 100px;display:'';" id="fname">${x[i].fname}</td>                                          
@@ -444,6 +449,7 @@
                                             </tr> `;
                                     }
                                     if (state == x[i].state) {
+
                                         output += `<tr>
                                                 <td style="width: 100px;display:'';" id="fname">${x[i].fname}</td>                                          
                                                 <td style="width: 100px;display:'';" id="mobileh">${x[i].mobile}</td>
@@ -455,8 +461,10 @@
                                                 <td style="width: 100px;display:'';" id="productn">${x[i].product_name}</td>
                                                 <td style="width: 100px;display:'';" id="productp">${x[i].product_price}</td>
                                             </tr>`;
-
                                     } else if (state != x[i].state) {
+
+
+
                                         output += `<tr>
                                                 <td style="width:100px;display:'';"></td>    
                                                 <td style="width:100px;display:'';"></td>    
@@ -464,14 +472,29 @@
                                                 <td style="width:100px;display:none;" class="cityh"></td>    
                                                 <td style="width:100px;display:'';"></td>    
                                                 <td style="width:100px;display:'';"></td>    
-                                                <td style="width:100px;display:'';">Total ${order_price}</td>    
+                                                <td style="width:100px;display:'';"></td>  
                                                 <td style="width:100px;display:'';"></td>                                                                                                                                                                                                                                                 
-                                                <td style="width:100px;display:'';">Total ${product_price}</td>
+                                                <td style="width:100px;display:'';"></td>  
                                             </tr>`;
+
+
                                     }
 
                                 }
+                                output += `
+                                            <tr>
+                                                <td style="width:100px;display:'';"></td>                                                     
+                                                <td style="width:100px;display:'';"></td>    
+                                                <td style="width:100px;display:'';"></td>    
+                                                <td style="width:100px;display:none;" class="cityh"></td>    
+                                                <td style="width:100px;display:'';"></td>    
+                                                <td style="width:100px;display:'';"></td>                                                   
+                                                <td style="width:100px;display:'';">Total ${order_price}</td> 
+                                                <td style="width:100px;display:'';"></td>
+                                                <td style="width:100px;display:'';">Total ${product_price}</td>  
+                                            </tr>`;
 
+                                //now craete new datatble 
                                 $('.tbody').html(output);
                                 $('#table_id').DataTable({
                                     "bSortable": false,
@@ -489,7 +512,6 @@
                             } else {
                                 alert("No Data Found in Table")
                             }
-
                         }
 
                     });
