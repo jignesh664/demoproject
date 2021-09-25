@@ -91,7 +91,7 @@ def get_data(request):
 
 
         querys=f"select c.fname, c.mobile, c.state, c.city, o.order_number, o.order_date, o.order_price, p.product_name, p.product_price from myapp_customer  as c  LEFT JOIN myapp_order as o ON c.id=o.id LEFT JOIN myapp_product as p ON p.id=c.id  WHERE 1 = 1 {allconditions} ORDER BY c.state ASC;"
-        data=runsql(querys)
+        data=runsql(querys) 
         return JsonResponse({'status':'save','data':data},safe=False)
     else:
         return JsonResponse({'status':0})    
