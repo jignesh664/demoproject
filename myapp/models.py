@@ -12,7 +12,6 @@ class State(models.Model):
     def __str__(self):
         return self.name+" "+self.desc
         
-    
 class City(models.Model):
     state_id=models.ForeignKey(State,on_delete=models.CASCADE)
     name=models.CharField(max_length=100)
@@ -45,7 +44,6 @@ class User(models.Model):
     is_deleted = models.IntegerField(default=1)
     is_active = models.CharField(max_length=300,default="inactive")
     is_login=models.BooleanField(default=False)
-
 
 
     def __str__(self):

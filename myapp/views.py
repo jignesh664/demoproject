@@ -35,14 +35,13 @@ def runsql(q):
         return True    
 
 
-
 @csrf_exempt
 @check_session
 @cache_control(no_cache=True ,must_revalidate=True ,no_store=True)
 def dashboard(request):
     c=Customer.objects.all()
     o=Order.objects.all()
-    # for remove dublicates values 
+    # for remove dublicates values add distinct() method
     records = Customer.objects.filter().values('state').distinct()
     records = [x['state'] for x in records]
     #citys =Customer.objects.filter().values('city')
@@ -50,7 +49,6 @@ def dashboard(request):
     #print(records)
     params={'c':c,'o':o,'records': records}
     return render (request,'dashboard.html',params)
-
 
 
 @csrf_exempt
@@ -68,6 +66,8 @@ def get_city(request):
         return JsonResponse({'status':'save','data':data},safe=False)
     else:
         return JsonResponse({'status':0,})  
+
+
 
 @csrf_exempt
 def get_data(request):
@@ -98,11 +98,11 @@ def get_data(request):
 
 
 
-
 @check_session 
 @cache_control(no_cache=True ,must_revalidate=True ,no_store=True)            
 def user_profile(request):
     return render(request,'user_profile.html')
+
    
 @check_session  
 @cache_control(no_cache=True ,must_revalidate=True ,no_store=True) 
@@ -111,7 +111,6 @@ def state(request):
     params = {"allStates": allStates}
     return render(request,'state/state.html', params)   
 
-  
 
 @csrf_exempt
 @check_session 
@@ -148,7 +147,7 @@ def add_state(request):
         return redirect('/state')
     else:
         return render(request,'state/add_state.html') 
-            
+                 
 
 @check_session  
 @cache_control(no_cache=True ,must_revalidate=True ,no_store=True) 
@@ -176,14 +175,12 @@ def delete_state(request, st_id):
     return redirect('/state')
     
 
-
 @check_session  
 def city(request):
     allcitys=City.objects.filter(is_deleted=1)
     params={'allcitys': allcitys}
     return render(request,'city/city.html', params)  
    
-
   
 @csrf_exempt
 @check_session 
@@ -215,7 +212,7 @@ def add_city(request):
         c.desc = request.POST['desc']
         c.is_active=active_status
         c.save()
-        messages.success(request, messages.SUCCESS, "City Added Successfully !!")
+        messages.add_message(request, messages.SUCCESS, "City Added Successfully !!")
         return redirect('/city')
     else:
         allStates = State.objects.all()
@@ -232,7 +229,7 @@ def edit_city(request,city_id=None):
         c.name=request.POST['name']
         c.desc=request.POST['desc']
         c.save()
-        messages.add_message(request, messages.SUCCESS,"City Edit successfully.")
+        messages.add_message(request, messages.SUCCESS,"City Edit successfully!!")
         return redirect('/city')
     else:
         c=City.objects.get(id=city_id,is_deleted = 1)
@@ -256,7 +253,6 @@ def area(request):
     allareas=Area.objects.filter(is_deleted=1)
     params={'allareas':allareas}
     return render(request,'area/area.html',params) 
-
 
 
 @csrf_exempt
@@ -293,7 +289,7 @@ def add_area(request):
         allcitys=City.objects.all()
         params={'allcitys':allcitys}   
         return render(request,'area/add_area.html',params)   
-    
+
 
 @check_session 
 @cache_control(no_cache=True ,must_revalidate=True ,no_store=True)  
@@ -309,7 +305,9 @@ def edit_area(request,area_id=None):
         a=Area.objects.get(id=area_id,is_deleted = 1)
         params={'area':a}
         return render(request,'area/edit_area.html',params)
-        
+
+
+
 
 @check_session 
 @cache_control(no_cache=True ,must_revalidate=True ,no_store=True)  
@@ -327,7 +325,7 @@ def user(request):
     allusers=User.objects.filter(is_deleted = 1)
     params={'allusers':allusers}
     return render(request,'user/user.html',params)  
-       
+
 
 @csrf_exempt
 @check_session 
@@ -341,7 +339,7 @@ def change_status_user(request):
         return JsonResponse({'success': True ,'massage':'Updated Successfully !'},safe=False)
     else:
         return JsonResponse({'success': False , 'massage':'something went wrong'},safe=False)
-        
+       
 
 @check_session
 @cache_control(no_cache=True ,must_revalidate=True ,no_store=True)   
